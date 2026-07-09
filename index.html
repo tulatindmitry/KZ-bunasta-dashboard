@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bunasta KZ — Дебиторка</title>
+<style>
+  :root {
+    --orange: #F7941D;
+    --blue: #1F4E79;
+    --light-blue: #2E6DA4;
+    --red: #C00000;
+    --yellow: #FFB800;
+    --green: #2E7D32;
+    --bg: #F4F6F9;
+    --card: #FFFFFF;
+    --text: #1A1A2E;
+    --muted: #6B7280;
+    --border: #E5E7EB;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); font-size: 14px; }
+
+  /* HEADER */
+  .header { background: var(--blue); color: #fff; padding: 16px 24px; display: flex; justify-content: space-between; align-items: center; }
+  .header h1 { font-size: 18px; font-weight: 700; letter-spacing: 0.5px; }
+  .header h1 span { color: var(--orange); }
+  .header .meta { font-size: 12px; opacity: 0.75; text-align: right; line-height: 1.6; }
+
+  /* NO-MOVEMENT BANNER */
+  .no-movement { background: #FFF3CD; border-left: 4px solid var(--yellow); padding: 10px 24px; font-size: 13px; color: #856404; font-weight: 600; }
+
+  /* TABS */
+  .tabs { display: flex; background: var(--blue); border-bottom: 2px solid var(--orange); }
+  .tab { padding: 10px 20px; color: rgba(255,255,255,0.6); cursor: pointer; font-size: 13px; font-weight: 500; border-bottom: 3px solid transparent; margin-bottom: -2px; }
+  .tab.active { color: #fff; border-bottom-color: var(--orange); }
+
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+
+  /* LAYOUT */
+  .container { padding: 20px 24px; max-width: 1200px; }
+
+  /* KPI ROW */
+  .kpi-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 20px; }
+  .kpi { background: var(--card); border-radius: 8px; padding: 16px 18px; border: 1px solid var(--border); position: relative; overflow: hidden; }
+  .kpi::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--orange); }
+  .kpi.danger::before { background: var(--red); }
+  .kpi.warn::before { background: var(--yellow); }
+  .kpi.ok::before { background: var(--green); }
+  .kpi label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; display: block; margin-bottom: 6px; }
+  .kpi .value { font-size: 26px; font-weight: 800; color: var(--blue); line-height: 1; }
+  .kpi .value.red { color: var(--red); }
+  .kpi .sub { font-size: 11px; color: var(--muted); margin-top: 5px; }
+  .kpi .delta { font-size: 12px; margin-top: 4px; }
+  .kpi .delta.up { color: var(--red); }
+  .kpi .delta.down { color: var(--green); }
+  .kpi .delta.zero { color: var(--muted); }
+
+  /* SECTIONS */
+  .section { background: var(--card); border-radius: 8px; border: 1px solid var(--border); margin-bottom: 16px; overflow: hidden; }
+  .section-title { background: var(--blue); color: #fff; padding: 10px 16px; font-size: 13px; font-weight: 600; letter-spacing: 0.3px; }
+  .section-body { padding: 16px; }
+
+  /* TWO-COL */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+
+  /* AGING BARS */
+  .aging-bar { display: flex; align-items: center; margin-bottom: 10px; gap: 10px; }
+  .aging-label { width: 90px; font-size: 12px; color: var(--muted); flex-shrink: 0; }
+  .aging-track { flex: 1; background: var(--bg); border-radius: 4px; height: 18px; overflow: hidden; }
+  .aging-fill { height: 100%; border-radius: 4px; display: flex; align-items: center; padding-left: 6px; font-size: 11px; font-weight: 600; color: #fff; white-space: nowrap; }
+  .aging-amount { width: 80px; text-align: right; font-size: 12px; font-weight: 600; flex-shrink: 0; }
+
+  /* TABLE */
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th { text-align: left; padding: 8px 10px; font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.4px; border-bottom: 2px solid var(--border); }
+  td { padding: 9px 10px; border-bottom: 1px solid var(--border); }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: var(--bg); }
+  .pct-bar-cell { width: 120px; }
+  .mini-bar { height: 6px; background: var(--orange); border-radius: 3px; }
+
+  /* FLAGS */
+  .flag { display: inline-flex; align-items: center; gap: 5px; padding: 3px 8px; border-radius: 12px; font-size: 11px; font-weight: 600; }
+  .flag.red { background: #FDECEA; color: var(--red); }
+  .flag.yellow { background: #FFF8E1; color: #B45309; }
+  .flag.green { background: #E8F5E9; color: var(--green); }
+  .flag.gray { background: #F3F4F6; color: var(--muted); }
+
+  /* FROZEN GROUP */
+  .frozen-item { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--border); }
+  .frozen-item:last-child { border-bottom: none; }
+  .frozen-name { font-size: 13px; }
+  .frozen-amount { font-size: 13px; font-weight: 700; color: var(--red); }
+  .frozen-badge { font-size: 11px; background: #FDECEA; color: var(--red); padding: 2px 6px; border-radius: 10px; margin-left: 8px; }
+
+  /* ELEKTRO */
+  .elektro-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--border); }
+  .elektro-row:last-child { border-bottom: none; }
+  .e-label { color: var(--muted); font-size: 13px; }
+  .e-val { font-weight: 600; font-size: 13px; }
+
+  /* CONCENTRATION */
+  .conc-visual { display: flex; height: 28px; border-radius: 6px; overflow: hidden; margin: 12px 0; font-size: 11px; }
+  .conc-seg { display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 700; min-width: 20px; }
+
+  /* SPARKLINE */
+  .spark-container { padding: 8px 0; }
+  .spark-note { font-size: 11px; color: var(--muted); margin-top: 8px; }
+
+  /* DISCLAIMER */
+  .disclaimer { background: #FFF8E1; border: 1px solid #FFB800; border-radius: 6px; padding: 10px 14px; font-size: 12px; color: #78350F; margin-top: 12px; }
+  .disclaimer strong { color: #92400E; }
+
+  /* FOOTER */
+  .footer { text-align: center; padding: 16px; font-size: 11px; color: var(--muted); border-top: 1px solid var(--border); margin-top: 8px; }
+
+  /* TREND TAB */
+  .t-col{display:flex;flex-direction:column;align-items:center;cursor:pointer;border-radius:6px 6px 0 0;transition:background .15s;padding:0 6px;flex:1;min-width:64px;}
+  .t-col:hover,.t-col.open{background:#E8F0F8;}
+  .t-bars{display:flex;gap:5px;align-items:flex-end;height:140px;justify-content:center;}
+  .t-b-kz3{width:22px;background:var(--blue);border-radius:3px 3px 0 0;min-height:4px;}
+  .t-b-ops{width:22px;background:var(--orange);border-radius:3px 3px 0 0;min-height:4px;}
+  .t-col.mtd .t-b-kz3{background:transparent;border:2px dashed var(--blue);opacity:.6;}
+  .t-col.mtd .t-b-ops{background:transparent;border:2px dashed var(--orange);opacity:.6;}
+  .t-val{font-size:11px;font-weight:700;color:var(--blue);margin-bottom:3px;}
+  .t-lbl{font-size:11px;color:var(--muted);margin-top:5px;text-align:center;}
+  .t-drill{border:1px solid var(--border);border-top:3px solid var(--orange);border-radius:0 0 8px 8px;background:#F8FAFC;padding:16px;margin-bottom:16px;display:none;}
+  .t-drill.open{display:block;}
+  .t-drill-title{font-size:13px;font-weight:700;color:var(--blue);margin-bottom:12px;}
+  .t-day-bars{display:flex;align-items:flex-end;gap:3px;height:90px;border-bottom:1px solid var(--border);padding-bottom:0;overflow-x:auto;}
+  .t-day{display:flex;flex-direction:column;align-items:center;flex-shrink:0;width:20px;}
+  .t-d-bar{width:16px;border-radius:2px 2px 0 0;background:var(--blue);min-height:3px;}
+  .t-d-bar.wk{background:#8AAABF;}
+  .t-d-bar.peak{background:var(--orange);}
+  .t-d-num{font-size:8px;color:var(--muted);margin-top:2px;line-height:1;}
+  .t-d-cnt{font-size:8px;color:var(--muted);line-height:1;margin-bottom:1px;}
+  .t-rev-col{display:flex;flex-direction:column;align-items:center;flex:1;}
+  .t-rev-bar{width:44px;background:var(--blue);border-radius:3px 3px 0 0;}
+  .t-rev-val{font-size:11px;font-weight:700;color:var(--blue);margin-bottom:2px;}
+  .t-rev-lbl{font-size:11px;color:var(--muted);margin-top:4px;}
+  .conc-row{display:flex;align-items:center;gap:10px;margin-bottom:8px;}
+  .conc-mon{width:32px;font-size:12px;color:var(--muted);flex-shrink:0;font-weight:600;}
+  .conc-track{flex:1;background:var(--bg);border-radius:4px;height:22px;overflow:hidden;}
+  .conc-fill{height:100%;display:flex;align-items:center;padding-left:8px;font-size:11px;font-weight:700;color:#fff;border-radius:4px;}
+  .conc-client{font-size:12px;color:var(--muted);overflow:hidden;white-space:nowrap;text-overflow:ellipsis;max-width:180px;}
+
+  /* ERP TAB EXTRAS */
+  .deftag { display:flex; gap:16px; font-size:12px; margin:14px 0 18px; flex-wrap:wrap; padding:10px 14px; background:#F0F4F8; border-radius:6px; border:1px solid var(--border); }
+  .deftag b { color: var(--blue); }
+  .stbar { height:30px; border-radius:6px; display:flex; overflow:hidden; margin-bottom:10px; }
+  .stbar > div { display:flex; align-items:center; justify-content:center; color:#fff; font-size:12px; font-weight:600; }
+  .stlegend { display:flex; gap:14px; flex-wrap:wrap; font-size:12px; color:var(--muted); margin-top:6px; }
+  .stlegend i { display:inline-block; width:10px; height:10px; border-radius:2px; margin-right:4px; vertical-align:middle; }
+  .spark-bars { display:flex; align-items:flex-end; gap:10px; height:90px; border-bottom:1px solid var(--border); padding-bottom:2px; }
+  .spark-bar { width:44px; background:var(--blue); border-radius:3px 3px 0 0; min-height:3px; position:relative; }
+  .spark-bar span { position:absolute; top:-18px; left:0; right:0; text-align:center; font-size:12px; font-weight:700; color:var(--blue); }
+  .spark-xax { display:flex; gap:10px; margin-top:4px; }
+  .spark-xax div { width:44px; text-align:center; font-size:11px; color:var(--muted); }
+  .badge { display:inline-block; background:#FFF8E1; color:#92400E; border:1px solid #F3D6A8; border-radius:6px; padding:8px 12px; font-size:12px; margin-top:12px; line-height:1.5; }
+  ul.reasons { list-style:none; }
+  ul.reasons li { font-size:13px; padding:6px 4px; border-bottom:1px dashed var(--border); display:flex; justify-content:space-between; }
+  ul.reasons li:last-child { border-bottom:none; }
+  ul.reasons li b { font-weight:700; color:var(--blue); }
+  .money-big { font-size:24px; font-weight:800; color:var(--blue); }
+  .kpi-2col { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:20px; max-width:560px; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>BUNASTA <span>KZ</span> — Единый дашборд</h1>
+  <div class="meta">
+    Дебиторка: <strong>09.07.2026</strong> · Nijolė → 1C<br>
+    ERP: <strong>08.07.2026</strong> · Odoo Order Funnel
+  </div>
+</div>
+
+<!-- NO MOVEMENT BANNER -->
+<div class="no-movement">
+  ⚠️ Без движения с 03.07.2026 — данные идентичны предыдущему снимку. Общий долг не изменился.
+</div>
+
+<!-- TABS -->
+<div class="tabs">
+  <div class="tab active" onclick="showTab('ar')">📋 Дебиторка</div>
+  <div class="tab" onclick="showTab('erp')">📦 ERP Заказы KZ</div>
+  <div class="tab" onclick="showTab('trend')">📊 Тренд 2026</div>
+</div>
+
+<!-- TAB: ДЕБИТОРКА -->
+<div id="tab-ar" class="tab-content active">
+<div class="container">
+
+  <!-- KPI ROW -->
+  <div class="kpi-row">
+    <div class="kpi danger">
+      <label>Всего к получению</label>
+      <div class="value red">142 450 €</div>
+      <div class="sub">78 635 292 ₸ · 190 счетов · 43 компании</div>
+      <div class="delta zero">= без изменений с 03.07</div>
+    </div>
+    <div class="kpi danger">
+      <label>Старый долг 2025 ⚠️</label>
+      <div class="value red">74 983 €</div>
+      <div class="sub">52.6% от общей дебиторки</div>
+      <div class="delta zero">= не гасится</div>
+    </div>
+    <div class="kpi danger">
+      <label>Просрочено 90+ дней</label>
+      <div class="value red">80 864 €</div>
+      <div class="sub">56.8% от общей суммы</div>
+      <div class="delta" style="color:var(--red)">🔴 Критично</div>
+    </div>
+    <div class="kpi warn">
+      <label>Концентрация — Топ-1</label>
+      <div class="value" style="color:var(--yellow)">21.8%</div>
+      <div class="sub">Elektronyj — 31 071 €</div>
+      <div class="delta" style="color:#B45309">⚠️ Риск зависимости</div>
+    </div>
+  </div>
+
+  <div class="two-col">
+
+    <!-- AGING -->
+    <div class="section">
+      <div class="section-title">📅 Aging по сроку оплаты</div>
+      <div class="section-body">
+        <div class="aging-bar">
+          <div class="aging-label">В сроке</div>
+          <div class="aging-track"><div class="aging-fill" style="width:17.3%;background:var(--green)">17%</div></div>
+          <div class="aging-amount">24 652 €</div>
+        </div>
+        <div class="aging-bar">
+          <div class="aging-label">1–30 дн</div>
+          <div class="aging-track"><div class="aging-fill" style="width:14.9%;background:var(--light-blue)">15%</div></div>
+          <div class="aging-amount">21 245 €</div>
+        </div>
+        <div class="aging-bar">
+          <div class="aging-label">31–60 дн</div>
+          <div class="aging-track"><div class="aging-fill" style="width:0.7%;background:var(--yellow); min-width:24px">&lt;1%</div></div>
+          <div class="aging-amount">1 051 €</div>
+        </div>
+        <div class="aging-bar">
+          <div class="aging-label">61–90 дн</div>
+          <div class="aging-track"><div class="aging-fill" style="width:11%;background:var(--orange)">11%</div></div>
+          <div class="aging-amount">15 647 €</div>
+        </div>
+        <div class="aging-bar">
+          <div class="aging-label" style="font-weight:700;color:var(--red)">90+ дн 🔴</div>
+          <div class="aging-track"><div class="aging-fill" style="width:56.8%;background:var(--red)">56.8%</div></div>
+          <div class="aging-amount" style="color:var(--red);font-weight:700">80 864 €</div>
+        </div>
+        <div style="margin-top:12px;font-size:12px;color:var(--muted)">Итого: 142 450 € · Норма (в сроке + до 30 дн): 32%</div>
+      </div>
+    </div>
+
+    <!-- CONCENTRATION -->
+    <div class="section">
+      <div class="section-title">🎯 Концентрация клиентов MTD</div>
+      <div class="section-body">
+        <div style="margin-bottom:8px;font-size:12px;color:var(--muted)">Доля в общей дебиторке 142 450 €</div>
+
+        <div class="conc-visual">
+          <div class="conc-seg" style="width:21.8%;background:var(--red)" title="Elektronyj 21.8%">22%</div>
+          <div class="conc-seg" style="width:10.6%;background:var(--orange)" title="Ascoinvest 10.6%">11%</div>
+          <div class="conc-seg" style="width:8.1%;background:#E08010" title="Agrotrade 8.1%">8%</div>
+          <div class="conc-seg" style="width:59.5%;background:var(--border);color:var(--muted)">остальные 60%</div>
+        </div>
+
+        <div style="margin-bottom:10px">
+          <span class="flag red">⚠️ Топ-1: 21.8% — риск зависимости</span>
+          &nbsp;
+          <span class="flag yellow">Топ-3: 40.5%</span>
+        </div>
+
+        <table>
+          <tr><th>#</th><th>Клиент</th><th>EUR</th><th>% потока</th><th>Счетов</th></tr>
+          <tr><td>1</td><td><strong>Elektronyj</strong></td><td>31 071</td><td><div class="pct-bar-cell"><div class="mini-bar" style="width:100%;background:var(--red)"></div><span style="font-size:11px;color:var(--red)">21.8%</span></div></td><td>2</td></tr>
+          <tr><td>2</td><td>Ascoinvest TOO</td><td>15 095</td><td><div class="mini-bar" style="width:48.6%"></div><span style="font-size:11px">10.6%</span></td><td>23</td></tr>
+          <tr><td>3</td><td>AGROTRADE LOGISTICS TOO</td><td>11 536</td><td><div class="mini-bar" style="width:37.2%"></div><span style="font-size:11px">8.1%</span></td><td>19</td></tr>
+          <tr><td>4</td><td>AIDA TRANSPORT ТОО</td><td>10 453</td><td><div class="mini-bar" style="width:33.7%"></div><span style="font-size:11px">7.3%</span></td><td>9</td></tr>
+          <tr><td>5</td><td>Hozu-77 TOO</td><td>8 657</td><td><div class="mini-bar" style="width:27.9%"></div><span style="font-size:11px">6.1%</span></td><td>10</td></tr>
+          <tr><td>6</td><td>ASCO-TRANS GROUP TOO</td><td>7 582</td><td><div class="mini-bar" style="width:24.4%"></div><span style="font-size:11px">5.3%</span></td><td>10</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- FROZEN 2025 DEBTORS -->
+  <div class="section">
+    <div class="section-title">🔴 Старый долг 2025 — все должники заморожены (0 движения)</div>
+    <div class="section-body">
+      <div style="background:#FDECEA;border-radius:6px;padding:10px 14px;margin-bottom:14px;font-size:13px;color:var(--red);font-weight:600">
+        ⚠️ Ни один из должников 2025 года не гасил долг между снимками 03.07 и 09.07. Всего заморожено: 74 983 € (12 компаний).
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0 24px">
+        <div>
+          <div class="frozen-item"><span class="frozen-name">🔴 Ascoinvest TOO <span class="frozen-badge">2+ снимка</span></span><span class="frozen-amount">11 800 €</span></div>
+          <div class="frozen-item"><span class="frozen-name">🔴 AIDA TRANSPORT ТОО <span class="frozen-badge">2+ снимка</span></span><span class="frozen-amount">10 372 €</span></div>
+          <div class="frozen-item"><span class="frozen-name">🔴 Hozu-77 TOO <span class="frozen-badge">2+ снимка</span></span><span class="frozen-amount">8 657 €</span></div>
+          <div class="frozen-item"><span class="frozen-name">🔴 AGROTRADE LOGISTICS TOO <span class="frozen-badge">2+ снимка</span></span><span class="frozen-amount">7 962 €</span></div>
+          <div class="frozen-item"><span class="frozen-name">🔴 Batys Turizm Snab TOO <span class="frozen-badge">2+ снимка</span></span><span class="frozen-amount">7 242 €</span></div>
+          <div class="frozen-item"><span class="frozen-name">🔴 TRANS ELITE SERVICE TOO <span class="frozen-badge">2+ снимка</span></span><span class="frozen-amount">6 630 €</span></div>
+        </div>
+        <div>
+          <div class="frozen-item"><span class="frozen-name">🔴 ASCO-TRANS GROUP TOO <span class="frozen-badge">2+ снимка</span></span><span class="frozen-amount">5 985 €</span></div>
+          <div class="frozen-item"><span class="frozen-name">🔴 GLOBALINK TOO <span class="frozen-badge">2+ снимка</span></span><span class="frozen-amount">5 105 €</span></div>
+          <div class="frozen-item"><span class="frozen-name">🔴 Asia Logistics KZ LTD TOO <span class="frozen-badge">2+ снимка</span></span><span class="frozen-amount">4 213 €</span></div>
+          <div class="frozen-item"><span class="frozen-name">🔴 TOO LOCADEX <span class="frozen-badge">2+ снимка</span></span><span class="frozen-amount">2 895 €</span></div>
+          <div class="frozen-item"><span class="frozen-name">🔴 KAYSAR TRANS TOO <span class="frozen-badge">2+ снимка</span></span><span class="frozen-amount">2 101 €</span></div>
+          <div class="frozen-item"><span class="frozen-name">🔴 ТОО ABT & E-TRANS <span class="frozen-badge">2+ снимка</span></span><span class="frozen-amount">2 020 €</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ELEKTRONYJ + CAUSES -->
+  <div class="two-col">
+    <div class="section">
+      <div class="section-title">⚡ Elektronyj — сверка (электро лист)</div>
+      <div class="section-body">
+        <div class="elektro-row"><span class="e-label">Реализация (счета выставлены)</span><span class="e-val">11 255 202 ₸</span></div>
+        <div class="elektro-row"><span class="e-label">Платежи (входящие)</span><span class="e-val">13 918 864 ₸</span></div>
+        <div class="elektro-row" style="background:var(--bg);border-radius:6px;padding:8px 0">
+          <span class="e-label" style="font-weight:700">Баланс</span>
+          <span class="e-val" style="color:var(--orange)">−2 663 662 ₸</span>
+        </div>
+        <div style="margin-top:10px;font-size:12px;color:var(--muted)">
+          ℹ️ Платежи превышают реализацию в регистре — возможна авансовая переплата или неотражённые счета. В сводной (PIV) за Elektronyj числится 31 071 € долга — сверить с бухгалтерией.
+        </div>
+        <div style="margin-top:8px;font-size:12px;color:var(--muted)">
+          Строк в регистре: 23 (реализации + платежи)
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">📝 Причины отмен</div>
+      <div class="section-body">
+        <div style="background:#F3F4F6;border-radius:6px;padding:14px;text-align:center;color:var(--muted);font-size:13px">
+          ⚠️ Данный дашборд — дебиторка, не заказы ERP.<br>
+          Причины отмен заказов — см. вкладку «ERP Заказы KZ».
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DISCLAIMER -->
+  <div class="disclaimer">
+    <strong>ℹ️ О данных:</strong> Источник — выгрузка от Nijolė Budreikienė. Суммы в EUR рассчитаны через курс, заложенный в ЕРП (не ЦБ РК на дату). Поле total_amount в Order Funnel заполнено частично — <strong>не использовать как реальный оборот (задача BK-50)</strong>. История хранится в <code>Дебиторка/ar_history.json</code>.
+  </div>
+
+  <div class="footer">Обновлено: 09.07.2026 · Следующий снимок ожидается: понедельник 13.07.2026 · Bunasta KZ Dashboard v1.0</div>
+
+</div>
+</div>
+
+<!-- ERP-TAB-START -->
+<div id="tab-erp" class="tab-content">
+<div class="container" style="padding-top:20px">
+
+  <!-- DEFINITION TAGS -->
+  <div class="deftag">
+    <span><b>KZ-3</b> = юрлицо «Bunasta KZ-3» (как в отчёте руководства)</span>
+    <span><b>OPS #454</b> (серым) = операционный отдел KZ (≈⅔ от KZ-3)</span>
+    <span style="color:var(--muted)">Отчётный день: <b>08.07.2026</b> (вчера, полный) · обновлено 09.07 в 08:40</span>
+  </div>
+
+  <!-- KPI ROW 4 -->
+  <div class="kpi-row">
+    <div class="kpi">
+      <label>Заказов вчера</label>
+      <div class="value">38</div>
+      <div class="sub">OPS #454: 34</div>
+    </div>
+    <div class="kpi">
+      <label>Оборот € вчера</label>
+      <div class="value">1 029 €</div>
+      <div class="sub">OPS #454: 905 €</div>
+    </div>
+    <div class="kpi">
+      <label>Заказов MTD</label>
+      <div class="value">256</div>
+      <div class="sub">OPS #454: 200</div>
+    </div>
+    <div class="kpi">
+      <label>Оборот € MTD</label>
+      <div class="value">11 687 €</div>
+      <div class="sub">OPS #454: 8 730 €</div>
+    </div>
+  </div>
+
+  <!-- KPI ROW 2 -->
+  <div class="kpi-2col">
+    <div class="kpi">
+      <label>Средний чек* MTD</label>
+      <div class="value">54 €</div>
+      <div class="sub">OPS #454: 52 €</div>
+    </div>
+    <div class="kpi danger">
+      <label>% отмен MTD</label>
+      <div class="value red">18.4%</div>
+      <div class="sub">OPS #454: 19.5% · цель &lt;10%</div>
+    </div>
+  </div>
+
+  <!-- DYNAMICS + STAGES -->
+  <div class="two-col">
+
+    <!-- SPARK CHART -->
+    <div class="section">
+      <div class="section-title">📈 Динамика заказов по дням (OPS #454 · июль 2026)</div>
+      <div class="section-body">
+        <!-- days: 01=34(ср) 02=30(чт) 03=42(пт,max) 04=16(сб) 05=3(вс) 06=11(пн) 07=30(вт) 08=34(ср) -->
+        <div class="spark-bars" style="gap:6px">
+          <div class="spark-bar" style="height:81%;width:36px"><span>34</span></div>
+          <div class="spark-bar" style="height:71%;width:36px"><span>30</span></div>
+          <div class="spark-bar" style="height:100%;width:36px;background:var(--orange)"><span style="color:var(--orange)">42</span></div>
+          <div class="spark-bar" style="height:38%;width:36px;background:#8AAABF"><span style="color:#6b7280">16</span></div>
+          <div class="spark-bar" style="height:7%;width:36px;background:#8AAABF;min-height:16px"><span style="color:#6b7280">3</span></div>
+          <div class="spark-bar" style="height:26%;width:36px"><span>11</span></div>
+          <div class="spark-bar" style="height:71%;width:36px"><span>30</span></div>
+          <div class="spark-bar" style="height:81%;width:36px"><span>34</span></div>
+        </div>
+        <div class="spark-xax" style="gap:6px">
+          <div style="width:36px">01</div>
+          <div style="width:36px">02</div>
+          <div style="width:36px;color:var(--orange);font-weight:700">03</div>
+          <div style="width:36px;color:#9aa3ad;font-size:10px">04<br>сб</div>
+          <div style="width:36px;color:#9aa3ad;font-size:10px">05<br>вс</div>
+          <div style="width:36px">06</div>
+          <div style="width:36px">07</div>
+          <div style="width:36px">08</div>
+        </div>
+        <div class="badge">Полные дни 1–8 июля. Сегодня (09.07) ещё идёт — не показываем. Серые столбцы = выходные. Пик: 3 июля (пт) — 42 заказа.</div>
+      </div>
+    </div>
+
+    <!-- STAGES -->
+    <div class="section">
+      <div class="section-title">📊 Стадии MTD (KZ-3)</div>
+      <div class="section-body">
+        <div class="stbar">
+          <div style="width:78.5%;background:var(--green)">Done+Completed 79%</div>
+          <div style="width:2.3%;background:var(--light-blue)"></div>
+          <div style="width:18.8%;background:var(--red)">19%</div>
+          <div style="width:0.4%;background:var(--muted)"></div>
+        </div>
+        <div class="stlegend">
+          <span><i style="background:var(--green)"></i>Done+Completed: 201</span>
+          <span><i style="background:var(--light-blue)"></i>В работе: 6</span>
+          <span><i style="background:var(--red)"></i>Canceled: 48</span>
+          <span><i style="background:var(--muted)"></i>Service used: 1</span>
+        </div>
+        <div style="margin-top:16px;padding-top:12px;border-top:1px solid var(--border);font-size:12px">
+          Итого KZ-3: <strong style="color:var(--blue)">256 заказов</strong> · OPS #454: <strong>200</strong>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOP CLIENTS -->
+  <div class="section">
+    <div class="section-title">🎯 Концентрация клиентов — топ-6 MTD (KZ-3)</div>
+    <div class="section-body">
+      <table>
+        <thead><tr><th>#</th><th>Клиент</th><th style="text-align:right">Заказов</th><th style="text-align:right">% MTD</th><th style="text-align:right">Оборот €</th></tr></thead>
+        <tbody>
+          <tr style="background:#F0F4F8;font-weight:600"><td>1</td><td>TRANS GLOBAL SHIPING OOO</td><td style="text-align:right">26</td><td style="text-align:right">10.2%</td><td style="text-align:right">1 001</td></tr>
+          <tr style="background:#F0F4F8;font-weight:600"><td>2</td><td>PARTNER-TRANS TOO</td><td style="text-align:right">15</td><td style="text-align:right">5.9%</td><td style="text-align:right">509</td></tr>
+          <tr style="background:#F0F4F8;font-weight:600"><td>3</td><td>Jelektronyi tranzit servis TOO</td><td style="text-align:right">12</td><td style="text-align:right">4.7%</td><td style="text-align:right">1 010</td></tr>
+          <tr><td>4</td><td>ASCO-TRANS GROUP TOO</td><td style="text-align:right">10</td><td style="text-align:right">3.9%</td><td style="text-align:right">203</td></tr>
+          <tr><td>5</td><td>Kotova Marina Gennadevna IP</td><td style="text-align:right">9</td><td style="text-align:right">3.5%</td><td style="text-align:right">327</td></tr>
+          <tr><td>6</td><td>Kaskyrova IP</td><td style="text-align:right">9</td><td style="text-align:right">3.5%</td><td style="text-align:right">564</td></tr>
+          <tr style="color:var(--muted)"><td colspan="2">Топ-3 суммарно</td><td style="text-align:right">53</td><td style="text-align:right">20.7%</td><td style="text-align:right">2 520</td></tr>
+        </tbody>
+      </table>
+      <div class="badge">Концентрация в норме: лидер 10.2% (&lt;15%). NB: по деньгам Jelektronyi (1 010 € с 12 заказов) обгоняет лидера по объёму — крупные чеки. Jelektronyi также входит в топ должников дебиторки (31 071 €).</div>
+    </div>
+  </div>
+
+  <!-- CANCEL REASONS -->
+  <div class="two-col">
+    <div class="section">
+      <div class="section-title">❌ Причины отмен MTD (KZ-3) — 48 заказов</div>
+      <div class="section-body">
+        <ul class="reasons">
+          <li><span>Canceled other reason</span><b>18</b></li>
+          <li><span>Re-service by client</span><b>9</b></li>
+          <li><span>Re-service by customs</span><b>7</b></li>
+          <li><span>Canceled by client</span><b>5</b></li>
+          <li><span>No Re-service</span><b>4</b></li>
+          <li><span>Прочие (по 1)</span><b>4</b></li>
+        </ul>
+        <div style="margin-top:12px;background:#FFF5F5;border-left:3px solid var(--red);padding:10px 12px;border-radius:4px;font-size:12px;color:#7B0000">
+          🔴 Целевой показатель: &lt;10%. Текущий: 18.4% KZ-3 / 19.5% OPS #454
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">🔍 Детализация «Canceled other reason» (18 отмен)</div>
+      <div class="section-body">
+        <ul class="reasons">
+          <li><span>Order update</span><b>8</b></li>
+          <li><span>Others</span><b>5</b></li>
+          <li><span>Consultation</span><b>2</b></li>
+          <li><span>Correction order</span><b>1</b></li>
+          <li><span>Print</span><b>1</b></li>
+          <li><span>Spam</span><b>1</b></li>
+        </ul>
+        <div class="badge">✅ <code>detailed_cancel_reason_name</code> заполнено 18/18. Реально «непонятных» (Others) только 5 — остальные 13 классифицированы. Примеры: «пауза по оформлению», «нет договора», «доп. документы».</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- REVENUE + DISCLAIMER -->
+  <div class="section">
+    <div class="section-title">💰 Оборот € MTD (KZ-3)</div>
+    <div class="section-body" style="display:flex;align-items:center;gap:16px;flex-wrap:wrap">
+      <div class="money-big">11 687 €</div>
+      <div style="color:var(--muted);font-size:13px">OPS #454: 8 730 €</div>
+      <div class="badge">⚠️ BK-50: total_amount заполнено ~84% заказов → нижняя граница. Не использовать как реальный оборот до завершения задачи BK-50 (Jira).</div>
+    </div>
+  </div>
+
+  <div class="footer">ERP данные: Odoo prod_ce · Order Funnel · dept #454 (OPS KZ) + our_company KZ-3 · Обновляется ежедневно в 08:37</div>
+
+</div>
+</div>
+<!-- ERP-TAB-END -->
+
+<!-- TAB: ТРЕНД 2026 -->
+<div id="tab-trend" class="tab-content">
+<div class="container" style="padding-top:20px">
+
+  <div class="kpi-row">
+    <div class="kpi ok"><label>Заказов H1 · KZ-3</label><div class="value">7 482</div><div class="sub">Январь–Июнь 2026</div></div>
+    <div class="kpi"><label>Оборот H1 · KZ-3</label><div class="value">527k €</div><div class="sub">нижняя граница (~84% fill)</div></div>
+    <div class="kpi"><label>Ран-рейт / год</label><div class="value">~1.05 млн €</div><div class="sub">× 2 от H1</div></div>
+    <div class="kpi ok"><label>Средний чек (стабилен)</label><div class="value">~78 €</div><div class="sub">OPS #454 · по заполненным</div></div>
+  </div>
+
+  <!-- MONTHLY ORDERS CHART -->
+  <div class="section">
+    <div class="section-title">📦 Заказы по месяцам — KZ-3 vs OPS #454 &nbsp;<span style="font-size:11px;font-weight:400;opacity:.8">↓ кликни на месяц — раскроются дни</span></div>
+    <div class="section-body">
+      <div style="display:flex;gap:16px;margin-bottom:14px;font-size:12px;align-items:center">
+        <span style="display:flex;align-items:center;gap:5px"><span style="display:inline-block;width:14px;height:14px;background:var(--blue);border-radius:2px"></span>KZ-3 (юрлицо / отчёт)</span>
+        <span style="display:flex;align-items:center;gap:5px"><span style="display:inline-block;width:14px;height:14px;background:var(--orange);border-radius:2px"></span>OPS #454 (отдел)</span>
+        <span style="display:flex;align-items:center;gap:5px"><span style="display:inline-block;width:14px;height:14px;border:2px dashed var(--blue);border-radius:2px"></span>MTD (неполный)</span>
+      </div>
+      <div style="display:flex;align-items:flex-end;gap:16px;border-bottom:2px solid var(--border)">
+        <div class="t-col" data-m="01" onclick="toggleDrill('01')">
+          <div class="t-val">1 026</div>
+          <div class="t-bars"><div class="t-b-kz3" style="height:96px"></div><div class="t-b-ops" style="height:60px"></div></div>
+          <div class="t-lbl">Янв ↓</div>
+        </div>
+        <div class="t-col" data-m="02" onclick="toggleDrill('02')">
+          <div class="t-val">1 174</div>
+          <div class="t-bars"><div class="t-b-kz3" style="height:110px"></div><div class="t-b-ops" style="height:82px"></div></div>
+          <div class="t-lbl">Фев ↓</div>
+        </div>
+        <div class="t-col" data-m="03" onclick="toggleDrill('03')">
+          <div class="t-val" style="color:var(--orange)">1 495 ▲</div>
+          <div class="t-bars"><div class="t-b-kz3" style="height:140px;background:var(--orange)"></div><div class="t-b-ops" style="height:101px"></div></div>
+          <div class="t-lbl" style="font-weight:700;color:var(--orange)">Мар ↓</div>
+        </div>
+        <div class="t-col" data-m="04" onclick="toggleDrill('04')">
+          <div class="t-val">1 375</div>
+          <div class="t-bars"><div class="t-b-kz3" style="height:129px"></div><div class="t-b-ops" style="height:90px"></div></div>
+          <div class="t-lbl">Апр ↓</div>
+        </div>
+        <div class="t-col" data-m="05" onclick="toggleDrill('05')">
+          <div class="t-val">1 243</div>
+          <div class="t-bars"><div class="t-b-kz3" style="height:116px"></div><div class="t-b-ops" style="height:87px"></div></div>
+          <div class="t-lbl">Май ↓</div>
+        </div>
+        <div class="t-col" data-m="06" onclick="toggleDrill('06')">
+          <div class="t-val">1 169</div>
+          <div class="t-bars"><div class="t-b-kz3" style="height:110px"></div><div class="t-b-ops" style="height:76px"></div></div>
+          <div class="t-lbl">Июн ↓</div>
+        </div>
+        <div class="t-col mtd" data-m="07" onclick="toggleDrill('07')">
+          <div class="t-val" style="color:var(--muted)">256*</div>
+          <div class="t-bars"><div class="t-b-kz3" style="height:24px"></div><div class="t-b-ops" style="height:19px"></div></div>
+          <div class="t-lbl" style="color:var(--muted)">Июл* ↓</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DRILL-DOWN PANEL -->
+  <div id="trend-drill-panel" class="t-drill" data-open-month=""></div>
+
+  <!-- REVENUE + CONCENTRATION -->
+  <div class="two-col">
+    <div class="section">
+      <div class="section-title">💰 Оборот € KZ-3 по месяцам</div>
+      <div class="section-body">
+        <div style="display:flex;align-items:flex-end;gap:16px;border-bottom:2px solid var(--border);height:130px">
+          <div class="t-rev-col"><div class="t-rev-val">80k</div><div class="t-rev-bar" style="height:80px"></div><div class="t-rev-lbl">Янв</div></div>
+          <div class="t-rev-col"><div class="t-rev-val">87k</div><div class="t-rev-bar" style="height:87px"></div><div class="t-rev-lbl">Фев</div></div>
+          <div class="t-rev-col"><div class="t-rev-val" style="color:var(--orange)">100k</div><div class="t-rev-bar" style="height:100px;background:var(--orange)"></div><div class="t-rev-lbl" style="font-weight:700">Мар</div></div>
+          <div class="t-rev-col"><div class="t-rev-val">94k</div><div class="t-rev-bar" style="height:93px"></div><div class="t-rev-lbl">Апр</div></div>
+          <div class="t-rev-col"><div class="t-rev-val">86k</div><div class="t-rev-bar" style="height:86px"></div><div class="t-rev-lbl">Май</div></div>
+          <div class="t-rev-col"><div class="t-rev-val">80k</div><div class="t-rev-bar" style="height:79px"></div><div class="t-rev-lbl">Июн</div></div>
+        </div>
+        <div class="badge" style="margin-top:10px">Выручка ровная ~80–100 к €/мес. Обвала нет. Июнь в отчёте (46.9к) — частичная выгрузка на 16.06; полный июнь из ЕРП = 79.7к.</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">🎯 Доля клиента №1 (KZ-3)</div>
+      <div class="section-body">
+        <div class="conc-row">
+          <div class="conc-mon">Янв</div>
+          <div class="conc-track"><div class="conc-fill" style="width:72%;background:var(--red)">18%</div></div>
+          <div class="conc-client" title="Jelektronyi tranzit servis TOO">Jelektronyi tranzit servis TOO</div>
+        </div>
+        <div class="conc-row">
+          <div class="conc-mon">Фев</div>
+          <div class="conc-track"><div class="conc-fill" style="width:84%;background:var(--red)">21%</div></div>
+          <div class="conc-client" title="Jelektronyi tranzit servis TOO">Jelektronyi tranzit servis TOO</div>
+        </div>
+        <div class="conc-row">
+          <div class="conc-mon" style="color:var(--orange);font-weight:700">Мар</div>
+          <div class="conc-track"><div class="conc-fill" style="width:92%;background:var(--red)">23% ▲</div></div>
+          <div class="conc-client" title="Jelektronyi tranzit servis TOO">Jelektronyi tranzit servis TOO</div>
+        </div>
+        <div class="conc-row">
+          <div class="conc-mon">Апр</div>
+          <div class="conc-track"><div class="conc-fill" style="width:48%;background:var(--orange)">12%</div></div>
+          <div class="conc-client" title="Jelektronyi tranzit servis TOO">Jelektronyi tranzit servis TOO</div>
+        </div>
+        <div class="conc-row">
+          <div class="conc-mon">Май</div>
+          <div class="conc-track"><div class="conc-fill" style="width:28%;background:var(--green)">7%</div></div>
+          <div class="conc-client" title="TRANS GLOBAL SHIPING OOO">TRANS GLOBAL SHIPING OOO</div>
+        </div>
+        <div class="conc-row">
+          <div class="conc-mon">Июн</div>
+          <div class="conc-track"><div class="conc-fill" style="width:24%;background:var(--green)">6%</div></div>
+          <div class="conc-client" title="Imperial Trak OOO">Imperial Trak OOO</div>
+        </div>
+        <div class="conc-row">
+          <div class="conc-mon" style="color:var(--muted)">Июл*</div>
+          <div class="conc-track"><div class="conc-fill" style="width:40%;background:var(--orange)">10%</div></div>
+          <div class="conc-client" title="TRANS GLOBAL SHIPING OOO">TRANS GLOBAL SHIPING OOO</div>
+        </div>
+        <div style="margin-top:10px;font-size:12px;color:var(--muted)">
+          <span style="display:inline-block;width:10px;height:10px;background:var(--red);border-radius:2px;margin-right:4px"></span>&gt;15% критично &nbsp;
+          <span style="display:inline-block;width:10px;height:10px;background:var(--orange);border-radius:2px;margin-right:4px"></span>10–15% &nbsp;
+          <span style="display:inline-block;width:10px;height:10px;background:var(--green);border-radius:2px;margin-right:4px"></span>&lt;10% норма
+        </div>
+        <div class="badge" style="margin-top:10px">⚠️ Jelektronyi доминировал Jan–Mar (18–23%). С апреля слез до 12% → нет в топе. Важно: это тот же клиент у которого 31к€ дебиторки (см. вкладку Дебиторка).</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="disclaimer"><strong>ℹ️ Данные:</strong> Источник — Odoo ERP prod_ce, order.funnel, all stages (active_test:false). KZ-3 = our_company_for_customer_id=12. OPS #454 = department_id=454. Оборот нижняя граница (BK-50). Июль* = MTD по 08.07.2026.</div>
+  <div class="footer">Данные обновляются ежедневно в 08:37 · ERP Bunasta KZ · H1 2026</div>
+
+</div>
+</div>
+
+<script>
+function showTab(name) {
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  event.target.classList.add('active');
+}
+
+// ── TREND TAB: daily data (OPS #454) ──────────────────────────────────────
+const TREND_DAILY = {
+  '01':{max:40,total:642,days:[[1,3],[2,14],[3,15],[4,10],[5,15],[6,13],[7,17],[8,16],[9,23],[10,11],[11,5],[12,13],[13,23],[14,22],[15,31],[16,40],[17,18],[18,18],[19,21],[20,26],[21,36],[22,26],[23,30],[24,22],[25,14],[26,37],[27,20],[28,27],[29,26],[30,36],[31,14]]},
+  '02':{max:61,total:878,days:[[1,11],[2,22],[3,21],[4,33],[5,34],[6,29],[7,10],[8,11],[9,28],[10,31],[11,32],[12,34],[13,49],[14,33],[15,22],[16,48],[17,26],[18,61],[19,39],[20,39],[21,27],[22,18],[23,40],[24,30],[25,31],[26,42],[27,38],[28,39]]},
+  '03':{max:66,total:1074,days:[[1,18],[2,36],[3,41],[4,52],[5,35],[6,50],[7,21],[8,13],[9,17],[10,24],[11,46],[12,32],[13,44],[14,29],[15,24],[16,19],[17,32],[18,37],[19,66],[20,39],[21,28],[22,17],[23,38],[24,31],[25,43],[26,57],[27,58],[28,40],[29,29],[30,33],[31,25]]},
+  '04':{max:59,total:962,days:[[1,37],[2,55],[3,37],[4,23],[5,24],[6,15],[7,41],[8,40],[9,50],[10,59],[11,35],[12,17],[13,41],[14,24],[15,40],[16,37],[17,30],[18,21],[19,8],[20,33],[21,27],[22,30],[23,31],[24,27],[25,23],[26,14],[27,35],[28,26],[29,40],[30,42]]},
+  '05':{max:48,total:933,days:[[1,28],[2,28],[3,28],[4,27],[5,45],[6,33],[7,39],[8,40],[9,24],[10,19],[11,22],[12,21],[13,29],[14,35],[15,48],[16,19],[17,24],[18,29],[19,34],[20,26],[21,38],[22,39],[23,21],[24,30],[25,22],[26,31],[27,43],[28,31],[29,30],[30,21],[31,29]]},
+  '06':{max:41,total:814,days:[[1,19],[2,34],[3,37],[4,27],[5,37],[6,20],[7,27],[8,31],[9,31],[10,31],[11,35],[12,38],[13,22],[14,13],[15,25],[16,31],[17,28],[18,34],[19,38],[20,8],[21,13],[22,27],[23,29],[24,41],[25,32],[26,29],[27,14],[28,7],[29,28],[30,28]]},
+  '07':{max:42,total:200,days:[[1,34],[2,30],[3,42],[4,16],[5,3],[6,11],[7,30],[8,34]],mtd:true}
+};
+const TREND_MONTH_NAMES = {'01':'Январь','02':'Февраль','03':'Март','04':'Апрель','05':'Май','06':'Июнь','07':'Июль (MTD до 08.07)'};
+
+function isWeekend(monthNum, day) {
+  const d = new Date(2026, monthNum - 1, day).getDay();
+  return d === 0 || d === 6;
+}
+
+function renderDrill(month) {
+  const m = TREND_DAILY[month];
+  if (!m) return '<p style="color:var(--muted)">Нет данных</p>';
+  const monthNum = parseInt(month);
+  const peakCount = m.max;
+  const peakDay = m.days.find(d => d[1] === peakCount)?.[0];
+  const avgDay = Math.round(m.total / m.days.length);
+
+  const bars = m.days.map(([day, count]) => {
+    const h = Math.max(3, Math.round(count / m.max * 82));
+    const wk = isWeekend(monthNum, day);
+    const pk = count === m.max;
+    const cls = pk ? 'peak' : wk ? 'wk' : '';
+    return `<div class="t-day">
+      <div class="t-d-cnt">${count}</div>
+      <div class="t-d-bar ${cls}" style="height:${h}px"></div>
+      <div class="t-d-num">${String(day).padStart(2,'0')}${wk ? '<br><span style="color:#8AAABF">⬜</span>' : ''}</div>
+    </div>`;
+  }).join('');
+
+  return `
+    <div class="t-drill-title">📅 ${TREND_MONTH_NAMES[month]} — дни (OPS #454)</div>
+    <div class="t-day-bars">${bars}</div>
+    <div style="margin-top:10px;display:flex;gap:20px;flex-wrap:wrap;font-size:12px;color:var(--muted)">
+      <span>Итого: <strong style="color:var(--blue)">${m.total}</strong> заказов</span>
+      <span>Пик: <strong style="color:var(--orange)">${peakCount}</strong> (${peakDay} число)</span>
+      <span>Среднее: <strong>${avgDay}</strong>/день</span>
+      <span><span style="display:inline-block;width:10px;height:10px;background:#8AAABF;border-radius:2px"></span> выходной</span>
+      <span><span style="display:inline-block;width:10px;height:10px;background:var(--orange);border-radius:2px"></span> пик</span>
+    </div>`;
+}
+
+function toggleDrill(month) {
+  const panel = document.getElementById('trend-drill-panel');
+  const clickedCol = document.querySelector(`.t-col[data-m="${month}"]`);
+
+  if (panel.dataset.openMonth === month && panel.classList.contains('open')) {
+    panel.classList.remove('open');
+    panel.dataset.openMonth = '';
+    clickedCol.classList.remove('open');
+    return;
+  }
+
+  document.querySelectorAll('.t-col').forEach(c => c.classList.remove('open'));
+  panel.innerHTML = renderDrill(month);
+  panel.classList.add('open');
+  panel.dataset.openMonth = month;
+  clickedCol.classList.add('open');
+
+  // Scroll drill panel into view smoothly
+  setTimeout(() => panel.scrollIntoView({behavior:'smooth', block:'nearest'}), 50);
+}
+</script>
+</body>
+</html>
