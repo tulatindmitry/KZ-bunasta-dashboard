@@ -396,6 +396,232 @@
     </div>
   </div>
 
+  <!-- =========================================================
+       ДИНАМИКА ДЕБИТОРКИ (из файлов Nijolė, апрель–июль 2026)
+       ========================================================= -->
+  <div class="section" style="margin-bottom:16px">
+    <div class="section-title">📉 Динамика общей дебиторки · апрель–июль 2026</div>
+    <div class="section-body" style="padding:20px">
+
+      <!-- SUMMARY ROW -->
+      <div style="display:flex;gap:24px;flex-wrap:wrap;margin-bottom:20px">
+        <div style="background:#EDF7EE;border-radius:8px;padding:12px 20px;flex:1;min-width:140px">
+          <div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.8px">Пик (08.04)</div>
+          <div style="font-size:22px;font-weight:800;color:var(--red)">327 394 €</div>
+        </div>
+        <div style="background:#EDF7EE;border-radius:8px;padding:12px 20px;flex:1;min-width:140px">
+          <div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.8px">Сегодня (09.07)</div>
+          <div style="font-size:22px;font-weight:800;color:var(--green)">143 459 €</div>
+        </div>
+        <div style="background:#EDF7EE;border-radius:8px;padding:12px 20px;flex:1;min-width:140px;border:2px solid var(--green)">
+          <div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.8px">Снижение за 3 мес</div>
+          <div style="font-size:22px;font-weight:800;color:var(--green)">−56.2% ↓</div>
+        </div>
+        <div style="background:#EDF7EE;border-radius:8px;padding:12px 20px;flex:1;min-width:140px">
+          <div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.8px">Снимков в базе</div>
+          <div style="font-size:22px;font-weight:800;color:var(--blue)">11</div>
+        </div>
+      </div>
+
+      <!-- SVG LINE CHART -->
+      <div style="position:relative;margin-bottom:6px">
+        <svg id="ar-trend-svg" viewBox="0 0 860 220" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block">
+          <defs>
+            <linearGradient id="areaGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#F7941D" stop-opacity="0.18"/>
+              <stop offset="100%" stop-color="#F7941D" stop-opacity="0.01"/>
+            </linearGradient>
+          </defs>
+
+          <!-- Горизонтальные линии сетки -->
+          <line x1="40" y1="30" x2="840" y2="30" stroke="#E5E7EB" stroke-width="1"/>
+          <line x1="40" y1="72" x2="840" y2="72" stroke="#E5E7EB" stroke-width="1"/>
+          <line x1="40" y1="114" x2="840" y2="114" stroke="#E5E7EB" stroke-width="1"/>
+          <line x1="40" y1="156" x2="840" y2="156" stroke="#E5E7EB" stroke-width="1"/>
+          <line x1="40" y1="198" x2="840" y2="198" stroke="#E5E7EB" stroke-width="1"/>
+
+          <!-- Y-метки -->
+          <text x="34" y="33" text-anchor="end" font-size="10" fill="#9CA3AF">350k</text>
+          <text x="34" y="75" text-anchor="end" font-size="10" fill="#9CA3AF">260k</text>
+          <text x="34" y="117" text-anchor="end" font-size="10" fill="#9CA3AF">175k</text>
+          <text x="34" y="159" text-anchor="end" font-size="10" fill="#9CA3AF">90k</text>
+          <text x="34" y="201" text-anchor="end" font-size="10" fill="#9CA3AF">0</text>
+
+          <!-- Area под кривой -->
+          <!-- points: y = 198 - (val/350000)*168 -->
+          <!-- x positions: 10 points evenly spaced 40..840 = step 88.9 -->
+          <polygon
+            points="
+              40,37 129,55 218,83 307,70 396,80 485,83 574,112 663,112 708,99 752,120 796,119
+              796,198 752,198 708,198 663,198 574,198 485,198 396,198 307,198 218,198 129,198 40,198
+            "
+            fill="url(#areaGrad)"
+          />
+
+          <!-- Линия тренда -->
+          <polyline
+            points="
+              40,37 129,55 218,83 307,70 396,80 485,83 574,112 663,112 708,99 752,120 796,119
+            "
+            fill="none" stroke="#F7941D" stroke-width="2.5" stroke-linejoin="round"
+          />
+
+          <!-- Точки -->
+          <circle cx="40"  cy="37"  r="4" fill="#F7941D"/>
+          <circle cx="129" cy="55"  r="4" fill="#F7941D"/>
+          <circle cx="218" cy="83"  r="4" fill="#F7941D"/>
+          <circle cx="307" cy="70"  r="4" fill="#F7941D"/>
+          <circle cx="396" cy="80"  r="4" fill="#F7941D"/>
+          <circle cx="485" cy="83"  r="4" fill="#F7941D"/>
+          <circle cx="574" cy="112" r="4" fill="#F7941D"/>
+          <circle cx="663" cy="112" r="4" fill="#F7941D"/>
+          <circle cx="708" cy="99"  r="4" fill="#F7941D"/>
+          <circle cx="752" cy="120" r="4.5" fill="#C00000"/>
+          <circle cx="796" cy="119" r="5" fill="#2E7D32" stroke="#fff" stroke-width="1.5"/>
+
+          <!-- Значения над точками -->
+          <text x="40"  y="27"  text-anchor="middle" font-size="9" font-weight="700" fill="#1F4E79">327k</text>
+          <text x="129" y="45"  text-anchor="middle" font-size="9" fill="#6B7280">245k</text>
+          <text x="218" y="73"  text-anchor="middle" font-size="9" fill="#6B7280">183k</text>
+          <text x="307" y="60"  text-anchor="middle" font-size="9" fill="#6B7280">214k</text>
+          <text x="396" y="70"  text-anchor="middle" font-size="9" fill="#6B7280">194k</text>
+          <text x="485" y="73"  text-anchor="middle" font-size="9" fill="#6B7280">180k</text>
+          <text x="574" y="102" text-anchor="middle" font-size="9" fill="#6B7280">150k</text>
+          <text x="663" y="102" text-anchor="middle" font-size="9" fill="#6B7280">150k</text>
+          <text x="708" y="89"  text-anchor="middle" font-size="9" fill="#6B7280">158k</text>
+          <text x="752" y="110" text-anchor="middle" font-size="9" font-weight="700" fill="#C00000">142k</text>
+          <text x="796" y="109" text-anchor="middle" font-size="9" font-weight="700" fill="#2E7D32">143k ✓</text>
+
+          <!-- X-метки дат -->
+          <text x="40"  y="215" text-anchor="middle" font-size="9" fill="#9CA3AF">08.04</text>
+          <text x="129" y="215" text-anchor="middle" font-size="9" fill="#9CA3AF">17.04</text>
+          <text x="218" y="215" text-anchor="middle" font-size="9" fill="#9CA3AF">23.04</text>
+          <text x="307" y="215" text-anchor="middle" font-size="9" fill="#9CA3AF">29.04</text>
+          <text x="396" y="215" text-anchor="middle" font-size="9" fill="#9CA3AF">12.05</text>
+          <text x="485" y="215" text-anchor="middle" font-size="9" fill="#9CA3AF">22.05</text>
+          <text x="574" y="215" text-anchor="middle" font-size="9" fill="#9CA3AF">28.05</text>
+          <text x="663" y="215" text-anchor="middle" font-size="9" fill="#9CA3AF">04.06</text>
+          <text x="708" y="215" text-anchor="middle" font-size="9" fill="#9CA3AF">19.06</text>
+          <text x="752" y="215" text-anchor="middle" font-size="9" fill="#9CA3AF">03.07</text>
+          <text x="796" y="215" text-anchor="middle" font-size="9" fill="#9CA3AF">09.07</text>
+        </svg>
+      </div>
+      <div style="font-size:11px;color:var(--muted);text-align:right;margin-bottom:20px">🟢 зелёная точка = сегодня · 🔴 = мин. за период</div>
+
+      <!-- ТОП ДЕБИТОРЫ ТАБЛИЦА -->
+      <div class="section-title" style="margin:0 -20px 12px;font-size:12px;background:#F4F6F9;color:var(--blue);padding:8px 20px">
+        📊 Динамика топ-дебиторов (€)
+      </div>
+      <div style="overflow-x:auto">
+        <table style="min-width:700px;font-size:11px">
+          <tr style="background:#F9FAFB">
+            <th style="text-align:left;padding:6px 8px;border-bottom:2px solid var(--border)">Клиент</th>
+            <th style="text-align:right;padding:6px 8px;border-bottom:2px solid var(--border);color:#6B7280">08.04</th>
+            <th style="text-align:right;padding:6px 8px;border-bottom:2px solid var(--border);color:#6B7280">29.04</th>
+            <th style="text-align:right;padding:6px 8px;border-bottom:2px solid var(--border);color:#6B7280">12.05</th>
+            <th style="text-align:right;padding:6px 8px;border-bottom:2px solid var(--border);color:#6B7280">28.05</th>
+            <th style="text-align:right;padding:6px 8px;border-bottom:2px solid var(--border);color:#6B7280">19.06</th>
+            <th style="text-align:right;padding:6px 8px;border-bottom:2px solid var(--border);color:#6B7280">03.07</th>
+            <th style="text-align:right;padding:6px 8px;border-bottom:2px solid var(--border);font-weight:700;color:var(--blue)">09.07</th>
+            <th style="text-align:center;padding:6px 8px;border-bottom:2px solid var(--border)">Тренд</th>
+          </tr>
+          <tr>
+            <td style="padding:6px 8px;border-bottom:1px solid var(--border)">Ascoinvest TOO</td>
+            <td style="text-align:right;padding:6px 8px;border-bottom:1px solid var(--border)">17 339</td>
+            <td style="text-align:right;padding:6px 8px;border-bottom:1px solid var(--border)">17 859</td>
+            <td style="text-align:right;padding:6px 8px;border-bottom:1px solid var(--border)">17 859</td>
+            <td style="text-align:right;padding:6px 8px;border-bottom:1px solid var(--border)">17 339</td>
+            <td style="text-align:right;padding:6px 8px;border-bottom:1px solid var(--border)">17 339</td>
+            <td style="text-align:right;padding:6px 8px;border-bottom:1px solid var(--border)">15 095</td>
+            <td style="text-align:right;padding:6px 8px;border-bottom:1px solid var(--border);font-weight:700">15 198</td>
+            <td style="text-align:center;padding:6px 8px;border-bottom:1px solid var(--border);color:var(--yellow)">→ стабильно</td>
+          </tr>
+          <tr style="background:#FAFAFA">
+            <td style="padding:6px 8px;border-bottom:1px solid var(--border)">AGROTRADE LOGISTICS TOO</td>
+            <td style="text-align:right;padding:6px 8px;border-bottom:1px solid var(--border)">17 578</td>
+            <td style="text-align:right;padding:6px 8px;border-bottom:1px solid var(--border)">18 070</td>
+            <td style="text-align:right;padding:6px 8px;border-bottom:1px solid var(--border)">16 472</td>
+            <td style="text-align:right;padding:6px 8px;border-bottom:1px solid var(--border)">14 251</td>
+            <td style="text-align:right;padding:6px 8px;border-bottom:1px solid var(--border)">13 821</td>
+            <td style="text-align:right;padding:6px 8px;border-bottom:1px solid var(--border)">11 536</td>
+            <td style="text-align:right;padding:6px 8px;border-bottom:1px solid var(--border);font-weight:700;color:var(--green)">10 902</td>
+            <td style="text-align:center;padding:6px 8px;border-bottom:1px solid var(--border);color:var(--green)">↓ снижается ✓</td>
+          </tr>
+          <tr>
+            <td style="padding:6px 8px;border-bottom:1px solid var(--border)">AIDA TRANSPORT ТОО</td>
+            <td style="text-align:right;padding:6px 8px;border-bottom:1px solid var(--border)">11 281</td>
+            <td style="text-align:right;padding:6px 8px;border-bottom:1px solid var(--border)">11 281</td>
+            <td style="text-align:right;padding:6px 8px;border-bottom:1px solid var(--border)">11 281</td>
+            <td style="text-align:right;padding:6px 8px;border-bottom:1px solid var(--border)">11 281</td>
+            <td style="text-align:right;padding:6px 8px;border-bottom:1px solid var(--border)">11 281</td>
+            <td style="text-align:right;padding:6px 8px;border-bottom:1px solid var(--border)">10 453</td>
+            <td style="text-align:right;padding:6px 8px;border-bottom:1px solid var(--border);font-weight:700;color:var(--yellow)">10 523</td>
+            <td style="text-align:center;padding:6px 8px;border-bottom:1px solid var(--border);color:var(--yellow)">⚠️ почти не гасит</td>
+          </tr>
+          <tr style="background:#FAFAFA">
+            <td style="padding:6px 8px;border-bottom:1px solid var(--border)">Империал Трак ООО</td>
+            <td style="text-align:right;padding:6px 8px;border-bottom:1px solid var(--border)">13 070</td>
+            <td style="text-align:right;padding:6px 8px;border-bottom:1px solid var(--border)">13 070</td>
+            <td style="text-align:right;padding:6px 8px;border-bottom:1px solid var(--border)">9 688</td>
+            <td style="text-align:right;padding:6px 8px;border-bottom:1px solid var(--border)">10 236</td>
+            <td style="text-align:right;padding:6px 8px;border-bottom:1px solid var(--border)">7 593</td>
+            <td style="text-align:right;padding:6px 8px;border-bottom:1px solid var(--border)">3 940</td>
+            <td style="text-align:right;padding:6px 8px;border-bottom:1px solid var(--border);font-weight:700;color:var(--green)">3 940</td>
+            <td style="text-align:center;padding:6px 8px;border-bottom:1px solid var(--border);color:var(--green)">↓ хорошая динамика ✓</td>
+          </tr>
+          <tr>
+            <td style="padding:6px 8px;border-bottom:1px solid var(--border)">HEGELMANN MULTIMODAL KZ</td>
+            <td style="text-align:right;padding:6px 8px;border-bottom:1px solid var(--border)">15 206</td>
+            <td style="text-align:right;padding:6px 8px;border-bottom:1px solid var(--border)">15 206</td>
+            <td style="text-align:right;padding:6px 8px;border-bottom:1px solid var(--border);color:var(--muted)">0</td>
+            <td style="text-align:right;padding:6px 8px;border-bottom:1px solid var(--border);color:var(--muted)">0</td>
+            <td style="text-align:right;padding:6px 8px;border-bottom:1px solid var(--border)">1 148</td>
+            <td style="text-align:right;padding:6px 8px;border-bottom:1px solid var(--border)">799</td>
+            <td style="text-align:right;padding:6px 8px;border-bottom:1px solid var(--border);font-weight:700;color:var(--green)">0 ✓</td>
+            <td style="text-align:center;padding:6px 8px;border-bottom:1px solid var(--border);color:var(--green)">↓ погашен ✓</td>
+          </tr>
+          <tr style="background:#FAFAFA">
+            <td style="padding:6px 8px;border-bottom:1px solid var(--border)">TRANS ELITE SERVICE TOO</td>
+            <td style="text-align:right;padding:6px 8px;border-bottom:1px solid var(--border)">6 630</td>
+            <td style="text-align:right;padding:6px 8px;border-bottom:1px solid var(--border)">6 630</td>
+            <td style="text-align:right;padding:6px 8px;border-bottom:1px solid var(--border)">6 630</td>
+            <td style="text-align:right;padding:6px 8px;border-bottom:1px solid var(--border)">6 630</td>
+            <td style="text-align:right;padding:6px 8px;border-bottom:1px solid var(--border)">6 630</td>
+            <td style="text-align:right;padding:6px 8px;border-bottom:1px solid var(--border)">6 630</td>
+            <td style="text-align:right;padding:6px 8px;border-bottom:1px solid var(--border);font-weight:700;color:var(--red)">6 630</td>
+            <td style="text-align:center;padding:6px 8px;border-bottom:1px solid var(--border);color:var(--red)">🔴 заморожен</td>
+          </tr>
+          <tr>
+            <td style="padding:6px 8px;border-bottom:1px solid var(--border)">GLOBALINK TRANSPORTATION</td>
+            <td style="text-align:right;padding:6px 8px;border-bottom:1px solid var(--border)">5 657</td>
+            <td style="text-align:right;padding:6px 8px;border-bottom:1px solid var(--border)">5 657</td>
+            <td style="text-align:right;padding:6px 8px;border-bottom:1px solid var(--border)">5 657</td>
+            <td style="text-align:right;padding:6px 8px;border-bottom:1px solid var(--border)">5 657</td>
+            <td style="text-align:right;padding:6px 8px;border-bottom:1px solid var(--border)">5 657</td>
+            <td style="text-align:right;padding:6px 8px;border-bottom:1px solid var(--border)">5 105</td>
+            <td style="text-align:right;padding:6px 8px;border-bottom:1px solid var(--border);font-weight:700;color:var(--yellow)">5 105</td>
+            <td style="text-align:center;padding:6px 8px;border-bottom:1px solid var(--border);color:var(--yellow)">⚠️ минимальное движение</td>
+          </tr>
+          <tr style="background:#FAFAFA">
+            <td style="padding:6px 8px;border-bottom:1px solid var(--border)">ОСКАР Авто ООО</td>
+            <td style="text-align:right;padding:6px 8px;border-bottom:1px solid var(--border)">8 551</td>
+            <td style="text-align:right;padding:6px 8px;border-bottom:1px solid var(--border)">3 097</td>
+            <td style="text-align:right;padding:6px 8px;border-bottom:1px solid var(--border)">1 824</td>
+            <td style="text-align:right;padding:6px 8px;border-bottom:1px solid var(--border)">1 824</td>
+            <td style="text-align:right;padding:6px 8px;border-bottom:1px solid var(--border)">985</td>
+            <td style="text-align:right;padding:6px 8px;border-bottom:1px solid var(--border)">985</td>
+            <td style="text-align:right;padding:6px 8px;border-bottom:1px solid var(--border);font-weight:700;color:var(--green)">1 285</td>
+            <td style="text-align:center;padding:6px 8px;border-bottom:1px solid var(--border);color:var(--green)">↓ хорошая динамика ✓</td>
+          </tr>
+        </table>
+      </div>
+
+      <div style="margin-top:12px;padding:10px 14px;background:#EBF5FF;border-radius:6px;font-size:12px;color:#1F4E79">
+        <strong>💡 Вывод:</strong> Общая дебиторка снижается устойчиво (−56% за 3 месяца). Основное достижение — Hegelmann (−15k) и Империал Трак (−9k). Требуют внимания: AIDA TRANSPORT (11k без движения), TRANS ELITE SERVICE (6.6k заморожен с апреля), GLOBALINK (5.1k — почти не гасит).
+      </div>
+    </div>
+  </div>
+
   <!-- DISCLAIMER -->
   <div class="disclaimer">
     <strong>ℹ️ О данных:</strong> Источник — выгрузка от Nijolė Budreikienė. Суммы в EUR рассчитаны через курс, заложенный в ЕРП (не ЦБ РК на дату). Поле total_amount в Order Funnel заполнено частично — <strong>не использовать как реальный оборот (задача BK-50)</strong>. История хранится в <code>Дебиторка/ar_history.json</code>.
