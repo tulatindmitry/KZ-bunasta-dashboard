@@ -233,13 +233,15 @@
 
 <!-- TABS -->
 <div class="tabs">
-  <div class="tab active" onclick="showTab('ar')">📋 Дебиторка</div>
-  <div class="tab" onclick="showTab('erp')">📦 ERP Заказы KZ</div>
+  <div class="tab active" onclick="showTab('erp')">📦 ERP Заказы KZ</div>
   <div class="tab" onclick="showTab('trend')">📊 Тренд 2026</div>
+  <div class="tab" onclick="showTab('ops')">👷 Загрузка ОПС</div>
+  <div class="tab" onclick="showTab('payments')">💰 Поступления</div>
+  <div class="tab" onclick="showTab('ar')">📋 Дебиторка</div>
 </div>
 
 <!-- TAB: ДЕБИТОРКА -->
-<div id="tab-ar" class="tab-content active">
+<div id="tab-ar" class="tab-content">
 <div class="container">
 
   <!-- KPI ROW -->
@@ -362,6 +364,55 @@
           <div class="frozen-item"><span class="frozen-name">🔴 ТОО ABT & E-TRANS <span class="frozen-badge">2+ снимка</span></span><span class="frozen-amount">2 020 €</span></div>
         </div>
       </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════
+       KPI ПО ЭДМУНДАСУ — «ДЫШАЩИЙ» vs РЕАЛЬНЫЙ ДОЛГ
+       ═══════════════════════════════════════════════ -->
+  <div class="section" style="margin-bottom:16px;border-left:4px solid #1F4E79">
+    <div class="section-title" style="background:#EFF6FF;color:#1F4E79">📊 Анализ Эдмундаса — старый долг отдельно от нового · снимок 03.07 → 09.07</div>
+    <div class="section-body">
+
+      <div style="background:#FDECEA;border-radius:6px;padding:10px 14px;margin-bottom:14px;font-size:13px;color:#7B0000;font-weight:600">
+        🔴 Старый долг 2025: <strong>0 € погашено за неделю</strong>. Снижение общей дебиторки — только за счёт новых счетов, а не погашения старых. Две разные ситуации — они не взаимозаменяемы.
+      </div>
+
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px">
+        <div style="background:#FDECEA;border-radius:7px;padding:12px 14px">
+          <div style="font-size:10px;color:#9B1C1C;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px">Погашено старого (03→09.07)</div>
+          <div style="font-size:22px;font-weight:800;color:#C00000">0 €</div>
+          <div style="font-size:11px;color:#9B1C1C;margin-top:3px">🔴 ни один из 12 должников не гасил 2025</div>
+        </div>
+        <div style="background:#FFF7ED;border-radius:7px;padding:12px 14px">
+          <div style="font-size:10px;color:#92400E;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px">Старый долг 2025 (замороженный)</div>
+          <div style="font-size:22px;font-weight:800;color:#C2410C">74 983 €</div>
+          <div style="font-size:11px;color:#92400E;margin-top:3px">= без изменений с 03.07 (3+ снимка)</div>
+        </div>
+        <div style="background:#F0FDF4;border-radius:7px;padding:12px 14px">
+          <div style="font-size:10px;color:#166534;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px">Снижение нового долга 2026</div>
+          <div style="font-size:22px;font-weight:800;color:#2E7D32">−1 009 €</div>
+          <div style="font-size:11px;color:#166534;margin-top:3px">03.07: 68 476 € → 09.07: 67 467 €</div>
+        </div>
+        <div style="background:#EFF6FF;border-radius:7px;padding:12px 14px">
+          <div style="font-size:10px;color:#1E40AF;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px">Покрытие: ожидает выписки</div>
+          <div style="font-size:22px;font-weight:800;color:#1F4E79">⏳</div>
+          <div style="font-size:11px;color:#1E40AF;margin-top:3px">Алексей пришлёт выписки → Дмитрий в копии</div>
+        </div>
+      </div>
+
+      <div style="background:#F0F9FF;border:1px solid #BAE6FD;border-radius:6px;padding:10px 14px;font-size:12px;color:#0C4A6E;line-height:1.7">
+        <strong>Логика по Эдмундасу:</strong>
+        <ul style="margin:6px 0 0 16px;list-style:disc">
+          <li>Старый долг ↓ + новые оплачиваются → <strong style="color:#2E7D32">здоровье</strong></li>
+          <li>Старый долг стоит, а сумма падает только из-за меньшего числа новых счетов → <strong style="color:#C00000">проблема замаскирована сезонностью</strong></li>
+          <li>Текущий сигнал: <strong style="color:#C00000">проблема</strong>. Общая дебиторка снижается, но ТОЛЬКО за счёт нового. Старый — заморожен полностью.</li>
+        </ul>
+        <div style="margin-top:8px;padding:6px 10px;background:#FEF2F2;border-radius:4px;color:#7B0000;font-size:11px">
+          ⚠️ <strong>Покрытие новых счетов (%):</strong> будет рассчитано точно после получения банковских выписок от Алексея. Пока — оценочно по изменению остатка (см. таблица ниже, столбец «Покрытие нов.»).
+        </div>
+      </div>
+
     </div>
   </div>
 
@@ -524,7 +575,21 @@
             <th style="text-align:right;padding:6px 8px;border-bottom:2px solid var(--border);color:#6B7280">03.07</th>
             <th style="text-align:right;padding:6px 8px;border-bottom:2px solid var(--border);font-weight:700;color:var(--blue)">09.07</th>
             <th style="text-align:center;padding:6px 8px;border-bottom:2px solid var(--border)">Тренд</th>
+            <th style="text-align:center;padding:6px 8px;border-bottom:2px solid var(--border);background:#EFF6FF;color:#1E40AF;font-size:10px">Покрытие нов. %<br><span style="font-weight:400;color:#6B7280">03→09.07 оценка</span></th>
+            <th style="text-align:center;padding:6px 8px;border-bottom:2px solid var(--border);background:#FEF2F2;color:#991B1B;font-size:10px">Δ старый долг<br><span style="font-weight:400;color:#6B7280">2025 · 03→09.07</span></th>
           </tr>
+
+          <!-- ──────────────────────────────────────────────────────
+               ЛЕГЕНДА новых колонок
+               ────────────────────────────────────────────────────── -->
+          <tr style="background:#F0F9FF">
+            <td colspan="8" style="padding:5px 8px;font-size:10px;color:#0C4A6E;font-style:italic">
+              <strong>Покрытие нов. %</strong> = оценка по изменению остатка. (+) долг растёт = новые > оплат ⚠️. (−) долг падает = оплаты > новых ✓. Точные % — после выписки Алексея.&nbsp;&nbsp;
+              <strong>Δ старый долг</strong> = изменение долга 2025 года за неделю. 0 = не гасится 🔴.
+            </td>
+            <td colspan="2" style="background:#F0F9FF"></td>
+          </tr>
+
           <tr>
             <td style="padding:6px 8px;border-bottom:1px solid var(--border)">Ascoinvest TOO</td>
             <td style="text-align:right;padding:6px 8px;border-bottom:1px solid var(--border)">17 339</td>
@@ -535,6 +600,8 @@
             <td style="text-align:right;padding:6px 8px;border-bottom:1px solid var(--border)">15 095</td>
             <td style="text-align:right;padding:6px 8px;border-bottom:1px solid var(--border);font-weight:700">15 198</td>
             <td style="text-align:center;padding:6px 8px;border-bottom:1px solid var(--border);color:var(--yellow)">→ стабильно</td>
+            <td style="text-align:center;padding:6px 8px;border-bottom:1px solid var(--border);background:#FEF9F0;font-size:11px;color:#B45309">⚠️ нов.+103€<br><span style="font-size:10px;color:#9CA3AF">&lt;100%, растёт</span></td>
+            <td style="text-align:center;padding:6px 8px;border-bottom:1px solid var(--border);background:#FEF2F2;font-size:11px;font-weight:700;color:#C00000">0 € 🔴<br><span style="font-size:10px;font-weight:400;color:#9CA3AF">стар. 11 800€</span></td>
           </tr>
           <tr style="background:#FAFAFA">
             <td style="padding:6px 8px;border-bottom:1px solid var(--border)">AGROTRADE LOGISTICS TOO</td>
@@ -546,6 +613,8 @@
             <td style="text-align:right;padding:6px 8px;border-bottom:1px solid var(--border)">11 536</td>
             <td style="text-align:right;padding:6px 8px;border-bottom:1px solid var(--border);font-weight:700;color:var(--green)">10 902</td>
             <td style="text-align:center;padding:6px 8px;border-bottom:1px solid var(--border);color:var(--green)">↓ снижается ✓</td>
+            <td style="text-align:center;padding:6px 8px;border-bottom:1px solid var(--border);background:#F0FDF4;font-size:11px;color:#2E7D32">✓ нов.−634€<br><span style="font-size:10px;color:#9CA3AF">&gt;100%, платит</span></td>
+            <td style="text-align:center;padding:6px 8px;border-bottom:1px solid var(--border);background:#FEF2F2;font-size:11px;font-weight:700;color:#C00000">0 € 🔴<br><span style="font-size:10px;font-weight:400;color:#9CA3AF">стар. 7 962€</span></td>
           </tr>
           <tr>
             <td style="padding:6px 8px;border-bottom:1px solid var(--border)">AIDA TRANSPORT ТОО</td>
@@ -557,6 +626,8 @@
             <td style="text-align:right;padding:6px 8px;border-bottom:1px solid var(--border)">10 453</td>
             <td style="text-align:right;padding:6px 8px;border-bottom:1px solid var(--border);font-weight:700;color:var(--yellow)">10 523</td>
             <td style="text-align:center;padding:6px 8px;border-bottom:1px solid var(--border);color:var(--yellow)">⚠️ почти не гасит</td>
+            <td style="text-align:center;padding:6px 8px;border-bottom:1px solid var(--border);background:#FEF9F0;font-size:11px;color:#B45309">⚠️ нов.+70€<br><span style="font-size:10px;color:#9CA3AF">&lt;100%, растёт</span></td>
+            <td style="text-align:center;padding:6px 8px;border-bottom:1px solid var(--border);background:#FEF2F2;font-size:11px;font-weight:700;color:#C00000">0 € 🔴<br><span style="font-size:10px;font-weight:400;color:#9CA3AF">стар. 10 372€</span></td>
           </tr>
           <tr style="background:#FAFAFA">
             <td style="padding:6px 8px;border-bottom:1px solid var(--border)">Империал Трак ООО</td>
@@ -568,6 +639,8 @@
             <td style="text-align:right;padding:6px 8px;border-bottom:1px solid var(--border)">3 940</td>
             <td style="text-align:right;padding:6px 8px;border-bottom:1px solid var(--border);font-weight:700;color:var(--green)">3 940</td>
             <td style="text-align:center;padding:6px 8px;border-bottom:1px solid var(--border);color:var(--green)">↓ хорошая динамика ✓</td>
+            <td style="text-align:center;padding:6px 8px;border-bottom:1px solid var(--border);background:#F0FDF4;font-size:11px;color:#2E7D32">= 0 изм.<br><span style="font-size:10px;color:#9CA3AF">~100%, стабильно</span></td>
+            <td style="text-align:center;padding:6px 8px;border-bottom:1px solid var(--border);background:#F9FAFB;font-size:11px;color:#6B7280">н/д<br><span style="font-size:10px;color:#9CA3AF">нет долга 2025</span></td>
           </tr>
           <tr>
             <td style="padding:6px 8px;border-bottom:1px solid var(--border)">HEGELMANN MULTIMODAL KZ</td>
@@ -579,6 +652,8 @@
             <td style="text-align:right;padding:6px 8px;border-bottom:1px solid var(--border)">799</td>
             <td style="text-align:right;padding:6px 8px;border-bottom:1px solid var(--border);font-weight:700;color:var(--green)">0 ✓</td>
             <td style="text-align:center;padding:6px 8px;border-bottom:1px solid var(--border);color:var(--green)">↓ погашен ✓</td>
+            <td style="text-align:center;padding:6px 8px;border-bottom:1px solid var(--border);background:#F0FDF4;font-size:11px;color:#2E7D32">✓ −799€<br><span style="font-size:10px;color:#9CA3AF">полностью погашен</span></td>
+            <td style="text-align:center;padding:6px 8px;border-bottom:1px solid var(--border);background:#F9FAFB;font-size:11px;color:#6B7280">н/д<br><span style="font-size:10px;color:#9CA3AF">нет долга 2025</span></td>
           </tr>
           <tr style="background:#FAFAFA">
             <td style="padding:6px 8px;border-bottom:1px solid var(--border)">TRANS ELITE SERVICE TOO</td>
@@ -590,6 +665,8 @@
             <td style="text-align:right;padding:6px 8px;border-bottom:1px solid var(--border)">6 630</td>
             <td style="text-align:right;padding:6px 8px;border-bottom:1px solid var(--border);font-weight:700;color:var(--red)">6 630</td>
             <td style="text-align:center;padding:6px 8px;border-bottom:1px solid var(--border);color:var(--red)">🔴 заморожен</td>
+            <td style="text-align:center;padding:6px 8px;border-bottom:1px solid var(--border);background:#F9FAFB;font-size:11px;color:#6B7280">н/д<br><span style="font-size:10px;color:#9CA3AF">нет новых счетов</span></td>
+            <td style="text-align:center;padding:6px 8px;border-bottom:1px solid var(--border);background:#FEF2F2;font-size:11px;font-weight:700;color:#C00000">0 € 🔴<br><span style="font-size:10px;font-weight:400;color:#9CA3AF">стар. 6 630€ (100%)</span></td>
           </tr>
           <tr>
             <td style="padding:6px 8px;border-bottom:1px solid var(--border)">GLOBALINK TRANSPORTATION</td>
@@ -601,6 +678,8 @@
             <td style="text-align:right;padding:6px 8px;border-bottom:1px solid var(--border)">5 105</td>
             <td style="text-align:right;padding:6px 8px;border-bottom:1px solid var(--border);font-weight:700;color:var(--yellow)">5 105</td>
             <td style="text-align:center;padding:6px 8px;border-bottom:1px solid var(--border);color:var(--yellow)">⚠️ минимальное движение</td>
+            <td style="text-align:center;padding:6px 8px;border-bottom:1px solid var(--border);background:#F9FAFB;font-size:11px;color:#6B7280">н/д<br><span style="font-size:10px;color:#9CA3AF">нет новых счетов</span></td>
+            <td style="text-align:center;padding:6px 8px;border-bottom:1px solid var(--border);background:#FEF2F2;font-size:11px;font-weight:700;color:#C00000">0 € 🔴<br><span style="font-size:10px;font-weight:400;color:#9CA3AF">стар. 5 105€ (100%)</span></td>
           </tr>
           <tr style="background:#FAFAFA">
             <td style="padding:6px 8px;border-bottom:1px solid var(--border)">ОСКАР Авто ООО</td>
@@ -612,12 +691,17 @@
             <td style="text-align:right;padding:6px 8px;border-bottom:1px solid var(--border)">985</td>
             <td style="text-align:right;padding:6px 8px;border-bottom:1px solid var(--border);font-weight:700;color:var(--green)">1 285</td>
             <td style="text-align:center;padding:6px 8px;border-bottom:1px solid var(--border);color:var(--green)">↓ хорошая динамика ✓</td>
+            <td style="text-align:center;padding:6px 8px;border-bottom:1px solid var(--border);background:#FEF9F0;font-size:11px;color:#B45309">⚠️ нов.+300€<br><span style="font-size:10px;color:#9CA3AF">&lt;100%, новый счёт</span></td>
+            <td style="text-align:center;padding:6px 8px;border-bottom:1px solid var(--border);background:#F9FAFB;font-size:11px;color:#6B7280">н/д<br><span style="font-size:10px;color:#9CA3AF">нет долга 2025</span></td>
           </tr>
         </table>
       </div>
 
       <div style="margin-top:12px;padding:10px 14px;background:#EBF5FF;border-radius:6px;font-size:12px;color:#1F4E79">
-        <strong>💡 Вывод:</strong> Общая дебиторка снижается устойчиво (−56% за 3 месяца). Основное достижение — Hegelmann (−15k) и Империал Трак (−9k). Требуют внимания: AIDA TRANSPORT (11k без движения), TRANS ELITE SERVICE (6.6k заморожен с апреля), GLOBALINK (5.1k — почти не гасит).
+        <strong>💡 Вывод (общий):</strong> Общая дебиторка снижается устойчиво (−56% за 3 месяца). Основное достижение — Hegelmann (−15k) и Империал Трак (−9k). Требуют внимания: AIDA TRANSPORT (11k без движения), TRANS ELITE SERVICE (6.6k заморожен), GLOBALINK (5.1k — почти не гасит).
+      </div>
+      <div style="margin-top:8px;padding:10px 14px;background:#FEF2F2;border-radius:6px;font-size:12px;color:#7B0000">
+        <strong>🔴 Вывод по KPI Эдмундаса:</strong> Снижение суммарной дебиторки — <strong>не сигнал здоровья</strong>. Старый долг 2025 (74 983 €) не уменьшился ни на 1 € за неделю. AGROTRADE снижается — но только по новым счетам, старый долг (7 962 €) стоит. AIDA и Ascoinvest: новый долг прибавляется, старый заморожен — двойная проблема. Покрытие новых счетов — точные % после выписок от Алексея.
       </div>
     </div>
   </div>
@@ -634,7 +718,7 @@
 
 <!-- ERP-TAB-START -->
 <!-- TAB: ERP ЗАКАЗЫ -->
-<div id="tab-erp" class="tab-content">
+<div id="tab-erp" class="tab-content active">
 <div class="container" style="padding-top:20px">
 
   <!-- DEFINITION TAGS -->
@@ -946,6 +1030,695 @@
 
   <div class="disclaimer"><strong>ℹ️ Данные:</strong> Источник — Odoo ERP prod_ce, order.funnel, all stages (active_test:false). KZ-3 = our_company_for_customer_id=12. OPS #454 = department_id=454. Оборот нижняя граница (BK-50). Июль* = MTD по 08.07.2026.</div>
   <div class="footer">Данные обновляются ежедневно в 08:37 · ERP Bunasta KZ · H1 2026</div>
+
+</div>
+</div>
+
+<!-- TAB: ПОСТУПЛЕНИЯ (данные Неойли, Bankai_suvestine_2026_v3) -->
+<div id="tab-payments" class="tab-content">
+<div class="container">
+
+  <div style="background:#EFF6FF;border-left:4px solid #1E40AF;padding:10px 16px;border-radius:0 6px 6px 0;margin-bottom:18px;font-size:13px;color:#1E40AF;">
+    <strong>Данные от Неойли</strong> · Банковские выписки BCC + Jusan Bank · Период: 03.01.2026 — 10.07.2026 · Только входящие платежи (кредит)
+  </div>
+
+  <!-- KPI ROW -->
+  <div class="kpi-row">
+    <div class="kpi ok">
+      <label>Итого получено</label>
+      <div class="value" style="color:var(--green)">776 244 €</div>
+      <div class="sub">1 396 операций · 284 плательщика</div>
+    </div>
+    <div class="kpi">
+      <label>Jusan Bank</label>
+      <div class="value" style="color:var(--blue)">470 930 €</div>
+      <div class="sub">840 операций · 60.7% от итога</div>
+    </div>
+    <div class="kpi">
+      <label>BCC (Bank CenterCredit)</label>
+      <div class="value" style="color:var(--blue)">270 838 €</div>
+      <div class="sub">476 операций · 34.9% от итога</div>
+    </div>
+    <div class="kpi warn">
+      <label>Средний месяц (янв–июл)</label>
+      <div class="value" style="color:var(--blue)">110 892 €</div>
+      <div class="sub">Без учёта июля (неполный)</div>
+    </div>
+  </div>
+
+  <!-- MONTHLY CHART -->
+  <div class="card" style="margin-bottom:18px;">
+    <div class="card-title">Поступления по месяцам, EUR</div>
+    <div style="margin-top:14px;">
+
+      <!-- Month bars -->
+      <div style="display:flex;align-items:flex-end;gap:8px;height:140px;border-bottom:2px solid var(--border);padding-bottom:4px;">
+        <!-- Max = 255 299 (Март) -->
+        <div style="display:flex;flex-direction:column;align-items:center;flex:1;gap:3px;">
+          <div style="font-size:11px;font-weight:700;color:var(--blue)">57 732</div>
+          <div style="width:100%;background:var(--blue);border-radius:3px 3px 0 0;height:calc(57732/255299*120px)"></div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;flex:1;gap:3px;">
+          <div style="font-size:11px;font-weight:700;color:var(--blue)">67 864</div>
+          <div style="width:100%;background:var(--blue);border-radius:3px 3px 0 0;height:calc(67864/255299*120px)"></div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;flex:1;gap:3px;">
+          <div style="font-size:11px;font-weight:700;color:var(--orange)">255 299</div>
+          <div style="width:100%;background:var(--orange);border-radius:3px 3px 0 0;height:120px;position:relative;">
+            <div style="position:absolute;top:-18px;left:0;right:0;text-align:center;font-size:9px;color:var(--orange)">★ пик</div>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;flex:1;gap:3px;">
+          <div style="font-size:11px;font-weight:700;color:var(--blue)">165 550</div>
+          <div style="width:100%;background:var(--blue);border-radius:3px 3px 0 0;height:calc(165550/255299*120px)"></div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;flex:1;gap:3px;">
+          <div style="font-size:11px;font-weight:700;color:var(--blue)">106 673</div>
+          <div style="width:100%;background:var(--blue);border-radius:3px 3px 0 0;height:calc(106673/255299*120px)"></div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;flex:1;gap:3px;">
+          <div style="font-size:11px;font-weight:700;color:var(--blue)">81 140</div>
+          <div style="width:100%;background:var(--blue);border-radius:3px 3px 0 0;height:calc(81140/255299*120px)"></div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;flex:1;gap:3px;">
+          <div style="font-size:11px;font-weight:700;color:var(--muted)">41 987</div>
+          <div style="width:100%;background:#9CA3AF;border-radius:3px 3px 0 0;height:calc(41987/255299*120px);"></div>
+        </div>
+      </div>
+      <div style="display:flex;gap:8px;margin-top:4px;">
+        <div style="flex:1;text-align:center;font-size:11px;color:var(--muted)">Янв</div>
+        <div style="flex:1;text-align:center;font-size:11px;color:var(--muted)">Фев</div>
+        <div style="flex:1;text-align:center;font-size:11px;color:var(--orange);font-weight:700">Мар</div>
+        <div style="flex:1;text-align:center;font-size:11px;color:var(--muted)">Апр</div>
+        <div style="flex:1;text-align:center;font-size:11px;color:var(--muted)">Май</div>
+        <div style="flex:1;text-align:center;font-size:11px;color:var(--muted)">Июн</div>
+        <div style="flex:1;text-align:center;font-size:11px;color:var(--muted)">Июл*</div>
+      </div>
+      <div style="font-size:11px;color:var(--muted);margin-top:6px;">* Июль — неполный период (данные до 10.07.2026). ★ Март: пик — вероятно крупный разовый платёж (ТОО TREVIO 147 363 €)</div>
+    </div>
+  </div>
+
+  <!-- TOP PAYERS + OPS TABLE side by side -->
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:18px;">
+
+    <!-- TOP PAYERS -->
+    <div class="card">
+      <div class="card-title">Топ-15 плательщиков</div>
+      <table style="width:100%;border-collapse:collapse;font-size:12px;margin-top:10px;">
+        <thead>
+          <tr style="border-bottom:2px solid var(--border);">
+            <th style="text-align:left;padding:4px 6px;color:var(--muted);font-weight:600;">#</th>
+            <th style="text-align:left;padding:4px 6px;color:var(--muted);font-weight:600;">Плательщик</th>
+            <th style="text-align:right;padding:4px 6px;color:var(--muted);font-weight:600;">EUR</th>
+            <th style="text-align:right;padding:4px 6px;color:var(--muted);font-weight:600;">Опер.</th>
+            <th style="text-align:right;padding:4px 6px;color:var(--muted);font-weight:600;">Доля</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="border-bottom:1px solid var(--border);background:#FFF7ED;">
+            <td style="padding:5px 6px;color:var(--muted);">1</td>
+            <td style="padding:5px 6px;font-weight:600;color:var(--blue);">АО Банк ЦентрКредит <span style="font-size:10px;color:var(--muted);font-weight:400">¹</span></td>
+            <td style="padding:5px 6px;text-align:right;font-weight:700;">197 308</td>
+            <td style="padding:5px 6px;text-align:right;color:var(--muted);">139</td>
+            <td style="padding:5px 6px;text-align:right;color:var(--muted);">25.4%</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--border);background:#FEF9F0;">
+            <td style="padding:5px 6px;color:var(--muted);">2</td>
+            <td style="padding:5px 6px;font-weight:600;color:var(--orange);">ТОО TREVIO</td>
+            <td style="padding:5px 6px;text-align:right;font-weight:700;color:var(--orange);">147 363</td>
+            <td style="padding:5px 6px;text-align:right;color:var(--muted);">2</td>
+            <td style="padding:5px 6px;text-align:right;color:var(--muted);">19.0%</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--border);">
+            <td style="padding:5px 6px;color:var(--muted);">3</td>
+            <td style="padding:5px 6px;">Hegelmann Multimodal KZ</td>
+            <td style="padding:5px 6px;text-align:right;font-weight:600;">35 404</td>
+            <td style="padding:5px 6px;text-align:right;color:var(--muted);">5</td>
+            <td style="padding:5px 6px;text-align:right;color:var(--muted);">4.6%</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--border);background:#F9FAFB;">
+            <td style="padding:5px 6px;color:var(--muted);">4</td>
+            <td style="padding:5px 6px;font-style:italic;color:var(--muted);">Не определён (Лист2) <span style="font-size:10px">²</span></td>
+            <td style="padding:5px 6px;text-align:right;font-weight:600;">34 476</td>
+            <td style="padding:5px 6px;text-align:right;color:var(--muted);">80</td>
+            <td style="padding:5px 6px;text-align:right;color:var(--muted);">4.4%</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--border);">
+            <td style="padding:5px 6px;color:var(--muted);">5</td>
+            <td style="padding:5px 6px;">ASCO-TRANS GROUP ТОО</td>
+            <td style="padding:5px 6px;text-align:right;font-weight:600;">21 675</td>
+            <td style="padding:5px 6px;text-align:right;color:var(--muted);">7</td>
+            <td style="padding:5px 6px;text-align:right;color:var(--muted);">2.8%</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--border);background:#F9FAFB;">
+            <td style="padding:5px 6px;color:var(--muted);">6</td>
+            <td style="padding:5px 6px;">ТОО ТЕХНОБЕЛ</td>
+            <td style="padding:5px 6px;text-align:right;font-weight:600;">19 897</td>
+            <td style="padding:5px 6px;text-align:right;color:var(--muted);">7</td>
+            <td style="padding:5px 6px;text-align:right;color:var(--muted);">2.6%</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--border);">
+            <td style="padding:5px 6px;color:var(--muted);">7</td>
+            <td style="padding:5px 6px;">ИП ҚАСҚЫРОВА</td>
+            <td style="padding:5px 6px;text-align:right;font-weight:600;">13 685</td>
+            <td style="padding:5px 6px;text-align:right;color:var(--muted);">15</td>
+            <td style="padding:5px 6px;text-align:right;color:var(--muted);">1.8%</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--border);background:#F9FAFB;">
+            <td style="padding:5px 6px;color:var(--muted);">8</td>
+            <td style="padding:5px 6px;">ТОО Ice Trans Logistic</td>
+            <td style="padding:5px 6px;text-align:right;font-weight:600;">11 070</td>
+            <td style="padding:5px 6px;text-align:right;color:var(--muted);">47</td>
+            <td style="padding:5px 6px;text-align:right;color:var(--muted);">1.4%</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--border);">
+            <td style="padding:5px 6px;color:var(--muted);">9</td>
+            <td style="padding:5px 6px;">ТОО Мультимоторс</td>
+            <td style="padding:5px 6px;text-align:right;font-weight:600;">10 429</td>
+            <td style="padding:5px 6px;text-align:right;color:var(--muted);">5</td>
+            <td style="padding:5px 6px;text-align:right;color:var(--muted);">1.3%</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--border);background:#F9FAFB;">
+            <td style="padding:5px 6px;color:var(--muted);">10</td>
+            <td style="padding:5px 6px;">ТОО Rokos Logistics</td>
+            <td style="padding:5px 6px;text-align:right;font-weight:600;">10 162</td>
+            <td style="padding:5px 6px;text-align:right;color:var(--muted);">9</td>
+            <td style="padding:5px 6px;text-align:right;color:var(--muted);">1.3%</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--border);">
+            <td style="padding:5px 6px;color:var(--muted);">11</td>
+            <td style="padding:5px 6px;">ИП MB-Logistic</td>
+            <td style="padding:5px 6px;text-align:right;font-weight:600;">9 496</td>
+            <td style="padding:5px 6px;text-align:right;color:var(--muted);">2</td>
+            <td style="padding:5px 6px;text-align:right;color:var(--muted);">1.2%</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--border);background:#F9FAFB;">
+            <td style="padding:5px 6px;color:var(--muted);">12</td>
+            <td style="padding:5px 6px;">ИП Төре</td>
+            <td style="padding:5px 6px;text-align:right;font-weight:600;">9 395</td>
+            <td style="padding:5px 6px;text-align:right;color:var(--muted);">1</td>
+            <td style="padding:5px 6px;text-align:right;color:var(--muted);">1.2%</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--border);">
+            <td style="padding:5px 6px;color:var(--muted);">13</td>
+            <td style="padding:5px 6px;">AGROTRADE LOGISTICS</td>
+            <td style="padding:5px 6px;text-align:right;font-weight:600;">7 472</td>
+            <td style="padding:5px 6px;text-align:right;color:var(--muted);">7</td>
+            <td style="padding:5px 6px;text-align:right;color:var(--muted);">1.0%</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--border);background:#F9FAFB;">
+            <td style="padding:5px 6px;color:var(--muted);">14</td>
+            <td style="padding:5px 6px;">ТОО RDV Trans</td>
+            <td style="padding:5px 6px;text-align:right;font-weight:600;">7 039</td>
+            <td style="padding:5px 6px;text-align:right;color:var(--muted);">16</td>
+            <td style="padding:5px 6px;text-align:right;color:var(--muted);">0.9%</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--border);">
+            <td style="padding:5px 6px;color:var(--muted);">15</td>
+            <td style="padding:5px 6px;">ТОО ЦЕНТРЕАЛ</td>
+            <td style="padding:5px 6px;text-align:right;font-weight:600;">6 998</td>
+            <td style="padding:5px 6px;text-align:right;color:var(--muted);">4</td>
+            <td style="padding:5px 6px;text-align:right;color:var(--muted);">0.9%</td>
+          </tr>
+          <tr style="background:var(--bg);">
+            <td colspan="2" style="padding:6px 6px;font-weight:700;color:var(--muted);">Остальные 269 плательщиков</td>
+            <td style="padding:6px 6px;text-align:right;font-weight:700;">≈ 147 774</td>
+            <td style="padding:6px 6px;text-align:right;color:var(--muted);">1 103</td>
+            <td style="padding:6px 6px;text-align:right;color:var(--muted);">~19%</td>
+          </tr>
+        </tbody>
+      </table>
+      <div style="font-size:10px;color:var(--muted);margin-top:8px;line-height:1.6;">
+        ¹ BCC как плательщик — карточные пополнения P2P/VISA DIRECT. Реальный отправитель не идентифицирован банком.<br>
+        ² Лист2 — 80 операций без идентификации плательщика. Нужна детализация от Неойли.
+      </div>
+    </div>
+
+    <!-- RIGHT: OPERATIONS + NOTES -->
+    <div style="display:flex;flex-direction:column;gap:14px;">
+
+      <!-- Ops by month -->
+      <div class="card">
+        <div class="card-title">Операций по месяцам</div>
+        <table style="width:100%;border-collapse:collapse;font-size:12px;margin-top:8px;">
+          <thead>
+            <tr style="border-bottom:1px solid var(--border);">
+              <th style="text-align:left;padding:3px 6px;color:var(--muted);font-weight:600;">Месяц</th>
+              <th style="text-align:right;padding:3px 6px;color:var(--muted);font-weight:600;">Опер.</th>
+              <th style="text-align:right;padding:3px 6px;color:var(--muted);font-weight:600;">Сумма, EUR</th>
+              <th style="text-align:right;padding:3px 6px;color:var(--muted);font-weight:600;">Ср. чек, EUR</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 6px;">Январь</td><td style="text-align:right;padding:4px 6px;">184</td><td style="text-align:right;padding:4px 6px;font-weight:600;">57 732</td><td style="text-align:right;padding:4px 6px;color:var(--muted);">314</td></tr>
+            <tr style="border-bottom:1px solid var(--border);background:#F9FAFB;"><td style="padding:4px 6px;">Февраль</td><td style="text-align:right;padding:4px 6px;">166</td><td style="text-align:right;padding:4px 6px;font-weight:600;">67 864</td><td style="text-align:right;padding:4px 6px;color:var(--muted);">409</td></tr>
+            <tr style="border-bottom:1px solid var(--border);background:#FEF9F0;"><td style="padding:4px 6px;font-weight:700;color:var(--orange);">Март ★</td><td style="text-align:right;padding:4px 6px;font-weight:700;">178</td><td style="text-align:right;padding:4px 6px;font-weight:700;color:var(--orange);">255 299</td><td style="text-align:right;padding:4px 6px;color:var(--orange);font-weight:700;">1 434</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 6px;">Апрель</td><td style="text-align:right;padding:4px 6px;">301</td><td style="text-align:right;padding:4px 6px;font-weight:600;">165 550</td><td style="text-align:right;padding:4px 6px;color:var(--muted);">550</td></tr>
+            <tr style="border-bottom:1px solid var(--border);background:#F9FAFB;"><td style="padding:4px 6px;">Май</td><td style="text-align:right;padding:4px 6px;">219</td><td style="text-align:right;padding:4px 6px;font-weight:600;">106 673</td><td style="text-align:right;padding:4px 6px;color:var(--muted);">487</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px 6px;">Июнь</td><td style="text-align:right;padding:4px 6px;">267</td><td style="text-align:right;padding:4px 6px;font-weight:600;">81 140</td><td style="text-align:right;padding:4px 6px;color:var(--muted);">304</td></tr>
+            <tr style="border-bottom:1px solid var(--border);background:#F9FAFB;"><td style="padding:4px 6px;color:var(--muted);">Июль (до 10.07)</td><td style="text-align:right;padding:4px 6px;color:var(--muted);">81</td><td style="text-align:right;padding:4px 6px;font-weight:600;color:var(--muted);">41 987</td><td style="text-align:right;padding:4px 6px;color:var(--muted);">518</td></tr>
+            <tr style="background:var(--bg);font-weight:700;"><td style="padding:5px 6px;">ИТОГО</td><td style="text-align:right;padding:5px 6px;">1 396</td><td style="text-align:right;padding:5px 6px;color:var(--green);">776 244</td><td style="text-align:right;padding:5px 6px;color:var(--muted);">556</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- By bank -->
+      <div class="card">
+        <div class="card-title">Разбивка по банкам</div>
+        <div style="margin-top:10px;">
+          <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px;">
+            <span style="font-weight:600;">Jusan Bank</span><span style="font-weight:700;">470 930 € <span style="color:var(--muted);font-weight:400;">(60.7%)</span></span>
+          </div>
+          <div style="background:#E5E7EB;border-radius:4px;height:10px;margin-bottom:10px;">
+            <div style="background:var(--blue);height:10px;border-radius:4px;width:60.7%"></div>
+          </div>
+          <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px;">
+            <span style="font-weight:600;">BCC (Bank CenterCredit)</span><span style="font-weight:700;">270 838 € <span style="color:var(--muted);font-weight:400;">(34.9%)</span></span>
+          </div>
+          <div style="background:#E5E7EB;border-radius:4px;height:10px;margin-bottom:10px;">
+            <div style="background:var(--light-blue);height:10px;border-radius:4px;width:34.9%"></div>
+          </div>
+          <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px;">
+            <span style="font-weight:600;color:var(--muted);">Не определено (Лист2)</span><span style="font-weight:700;color:var(--muted);">34 476 € (4.4%)</span>
+          </div>
+          <div style="background:#E5E7EB;border-radius:4px;height:10px;">
+            <div style="background:#9CA3AF;height:10px;border-radius:4px;width:4.4%"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Key observations -->
+      <div class="card" style="background:#FFF8E1;border-left:4px solid var(--yellow);">
+        <div class="card-title">⚠️ На что обратить внимание</div>
+        <ul style="margin-top:8px;font-size:12px;color:var(--text);list-style:none;">
+          <li style="padding:4px 0;border-bottom:1px dashed var(--border);">Март: 255 299 € — пик за счёт TREVIO (147 363 €, 2 платежа). Разовый, нерегулярный.</li>
+          <li style="padding:4px 0;border-bottom:1px dashed var(--border);">BCC как плательщик #1 (197 308 €) — это карточные пополнения (P2P). Фактических клиентов скрыто.</li>
+          <li style="padding:4px 0;border-bottom:1px dashed var(--border);">34 476 € (Лист2, 80 опер.) — без идентификации плательщика. Запросить детализацию у Неойли.</li>
+          <li style="padding:4px 0;">Июнь–Июль: снижение сумм при росте операций → средний чек падает. Мелкие платежи.</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+
+  <div style="font-size:11px;color:var(--muted);border-top:1px solid var(--border);padding-top:10px;">
+    Источник: Bankai_suvestine_2026_v3.xlsx (подготовлено Неойли) · Выписки BCC + Jusan Bank · Конвертация KZT→EUR по рыночному курсу на дату операции
+  </div>
+
+</div>
+</div>
+
+<!-- TAB: ЗАГРУЗКА ОПС (Odoo ERP, order.funnel, dept=454, YTD 2026 + помесячно) -->
+<div id="tab-ops" class="tab-content">
+<div class="container">
+
+  <div style="background:#EFF6FF;border-left:4px solid var(--blue);padding:10px 16px;border-radius:0 6px 6px 0;margin-bottom:18px;font-size:13px;color:var(--blue);">
+    <strong>Загрузка ОПС KZ · Odoo ERP</strong> · model=order.funnel · dept=454 · 01.01–13.07.2026 (YTD) · Выгрузка: 13.07.2026
+  </div>
+
+  <!-- KPI row YTD -->
+  <div class="kpi-row">
+    <div class="kpi ok">
+      <label>Заявок YTD</label>
+      <div class="value" style="color:var(--blue)">5 625</div>
+      <div class="sub">Jan–Jul · 6 операторов</div>
+    </div>
+    <div class="kpi">
+      <label>Оборот YTD</label>
+      <div class="value" style="color:var(--green)">387 095 €</div>
+      <div class="sub">Ср. чек 68.8 €</div>
+    </div>
+    <div class="kpi">
+      <label>Завершено YTD</label>
+      <div class="value" style="color:var(--green)">2 897</div>
+      <div class="sub">Успех 73.2% · бэклог 1 665</div>
+    </div>
+    <div class="kpi warn">
+      <label>Июль MTD (13 дней)</label>
+      <div class="value" style="color:var(--yellow)">329</div>
+      <div class="sub">15 275 € · ср. чек 46 €</div>
+    </div>
+  </div>
+
+  <!-- MONTHLY ORDERS TABLE -->
+  <div class="card">
+    <div class="card-title">Заявки по месяцам — количество (шт.)</div>
+    <div style="overflow-x:auto;margin-top:12px;">
+      <table style="width:100%;border-collapse:collapse;font-size:12px;min-width:700px;">
+        <thead>
+          <tr style="background:var(--blue);color:#fff;">
+            <th style="padding:8px 10px;text-align:left;min-width:160px;">Сотрудник</th>
+            <th style="padding:8px 6px;text-align:center;">Янв</th>
+            <th style="padding:8px 6px;text-align:center;">Фев</th>
+            <th style="padding:8px 6px;text-align:center;">Мар</th>
+            <th style="padding:8px 6px;text-align:center;">Апр</th>
+            <th style="padding:8px 6px;text-align:center;">Май</th>
+            <th style="padding:8px 6px;text-align:center;">Июн</th>
+            <th style="padding:8px 6px;text-align:center;background:#2563EB;">Июл*</th>
+            <th style="padding:8px 6px;text-align:center;border-left:2px solid rgba(255,255,255,.3);">YTD</th>
+            <th style="padding:8px 6px;text-align:center;">Успех%</th>
+            <th style="padding:8px 6px;text-align:right;">Ср.чек</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Lyazzat -->
+          <tr style="border-bottom:1px solid var(--border);">
+            <td style="padding:7px 10px;font-weight:600;">Lyazzat Abdrajmova</td>
+            <td style="padding:7px 6px;text-align:center;">245</td>
+            <td style="padding:7px 6px;text-align:center;">284</td>
+            <td style="padding:7px 6px;text-align:center;font-weight:700;color:var(--orange);">351</td>
+            <td style="padding:7px 6px;text-align:center;">287</td>
+            <td style="padding:7px 6px;text-align:center;">255</td>
+            <td style="padding:7px 6px;text-align:center;">228</td>
+            <td style="padding:7px 6px;text-align:center;background:#EFF6FF;font-weight:700;">148</td>
+            <td style="padding:7px 6px;text-align:center;font-weight:700;border-left:2px solid var(--border);">1 798</td>
+            <td style="padding:7px 6px;text-align:center;"><span style="background:#DCFCE7;color:#166534;padding:1px 7px;border-radius:8px;font-weight:700;">72.6%</span></td>
+            <td style="padding:7px 6px;text-align:right;color:var(--muted);">74 €</td>
+          </tr>
+          <!-- Eldar -->
+          <tr style="border-bottom:1px solid var(--border);background:#F9FAFB;">
+            <td style="padding:7px 10px;font-weight:600;">Eldar Tleuberdiev</td>
+            <td style="padding:7px 6px;text-align:center;">163</td>
+            <td style="padding:7px 6px;text-align:center;font-weight:700;color:var(--orange);">234</td>
+            <td style="padding:7px 6px;text-align:center;">197</td>
+            <td style="padding:7px 6px;text-align:center;">214</td>
+            <td style="padding:7px 6px;text-align:center;">200</td>
+            <td style="padding:7px 6px;text-align:center;">170</td>
+            <td style="padding:7px 6px;text-align:center;background:#EFF6FF;font-weight:700;">55</td>
+            <td style="padding:7px 6px;text-align:center;font-weight:700;border-left:2px solid var(--border);">1 233</td>
+            <td style="padding:7px 6px;text-align:center;"><span style="background:#DCFCE7;color:#166534;padding:1px 7px;border-radius:8px;font-weight:700;">73.2%</span></td>
+            <td style="padding:7px 6px;text-align:right;color:var(--muted);">68 €</td>
+          </tr>
+          <!-- Gulnara -->
+          <tr style="border-bottom:1px solid var(--border);">
+            <td style="padding:7px 10px;font-weight:600;">Gulnara Azhgereeyeva</td>
+            <td style="padding:7px 6px;text-align:center;">127</td>
+            <td style="padding:7px 6px;text-align:center;">163</td>
+            <td style="padding:7px 6px;text-align:center;font-weight:700;color:var(--orange);">248</td>
+            <td style="padding:7px 6px;text-align:center;">213</td>
+            <td style="padding:7px 6px;text-align:center;">162</td>
+            <td style="padding:7px 6px;text-align:center;color:var(--red);font-weight:700;">87</td>
+            <td style="padding:7px 6px;text-align:center;background:#EFF6FF;font-weight:700;">46</td>
+            <td style="padding:7px 6px;text-align:center;font-weight:700;border-left:2px solid var(--border);">1 046</td>
+            <td style="padding:7px 6px;text-align:center;"><span style="background:#DCFCE7;color:#166534;padding:1px 7px;border-radius:8px;font-weight:700;">75.2%</span></td>
+            <td style="padding:7px 6px;text-align:right;color:var(--muted);">75 €</td>
+          </tr>
+          <!-- Yerbol -->
+          <tr style="border-bottom:1px solid var(--border);background:#F9FAFB;">
+            <td style="padding:7px 10px;font-weight:600;">Yerbol Nurgaliyev</td>
+            <td style="padding:7px 6px;text-align:center;color:var(--muted);">—</td>
+            <td style="padding:7px 6px;text-align:center;">147</td>
+            <td style="padding:7px 6px;text-align:center;font-weight:700;color:var(--orange);">221</td>
+            <td style="padding:7px 6px;text-align:center;">174</td>
+            <td style="padding:7px 6px;text-align:center;font-weight:700;">223</td>
+            <td style="padding:7px 6px;text-align:center;">167</td>
+            <td style="padding:7px 6px;text-align:center;background:#EFF6FF;font-weight:700;">62</td>
+            <td style="padding:7px 6px;text-align:center;font-weight:700;border-left:2px solid var(--border);">994</td>
+            <td style="padding:7px 6px;text-align:center;"><span style="background:#DCFCE7;color:#166534;padding:1px 7px;border-radius:8px;font-weight:700;">74.0%</span></td>
+            <td style="padding:7px 6px;text-align:right;color:var(--muted);">59 €</td>
+          </tr>
+          <!-- Kinga -->
+          <tr style="border-bottom:1px solid var(--border);">
+            <td style="padding:7px 10px;font-weight:600;color:var(--muted);">Kinga Petrova <span style="font-size:10px;background:#FEF9C3;padding:1px 5px;border-radius:6px;color:#854D0E;">ушла?</span></td>
+            <td style="padding:7px 6px;text-align:center;font-weight:700;color:var(--orange);">104</td>
+            <td style="padding:7px 6px;text-align:center;">47</td>
+            <td style="padding:7px 6px;text-align:center;">57</td>
+            <td style="padding:7px 6px;text-align:center;">74</td>
+            <td style="padding:7px 6px;text-align:center;color:var(--muted);">14</td>
+            <td style="padding:7px 6px;text-align:center;color:var(--red);font-weight:700;">0</td>
+            <td style="padding:7px 6px;text-align:center;background:#EFF6FF;color:var(--red);font-weight:700;">0</td>
+            <td style="padding:7px 6px;text-align:center;font-weight:700;border-left:2px solid var(--border);">296</td>
+            <td style="padding:7px 6px;text-align:center;"><span style="background:#FEF9C3;color:#854D0E;padding:1px 7px;border-radius:8px;font-weight:700;">67.3%</span></td>
+            <td style="padding:7px 6px;text-align:right;color:var(--muted);">70 €</td>
+          </tr>
+          <!-- Кенжалиева -->
+          <tr style="border-bottom:1px solid var(--border);background:#F9FAFB;">
+            <td style="padding:7px 10px;font-weight:600;">Кенжалиева Алтынай <span style="font-size:10px;background:#DBEAFE;padding:1px 5px;border-radius:6px;color:var(--blue);">CN</span> <span style="font-size:10px;background:#D1FAE5;padding:1px 5px;border-radius:6px;color:#065F46;">new</span></td>
+            <td style="padding:7px 6px;text-align:center;color:var(--muted);">—</td>
+            <td style="padding:7px 6px;text-align:center;color:var(--muted);">—</td>
+            <td style="padding:7px 6px;text-align:center;color:var(--muted);">—</td>
+            <td style="padding:7px 6px;text-align:center;color:var(--muted);">—</td>
+            <td style="padding:7px 6px;text-align:center;">38</td>
+            <td style="padding:7px 6px;text-align:center;font-weight:700;color:var(--orange);">75</td>
+            <td style="padding:7px 6px;text-align:center;background:#EFF6FF;font-weight:700;">16</td>
+            <td style="padding:7px 6px;text-align:center;font-weight:700;border-left:2px solid var(--border);">129</td>
+            <td style="padding:7px 6px;text-align:center;"><span style="background:#FEF9C3;color:#854D0E;padding:1px 7px;border-radius:8px;font-weight:700;">69.5%</span></td>
+            <td style="padding:7px 6px;text-align:right;color:var(--muted);">38 €</td>
+          </tr>
+          <!-- Самиева -->
+          <tr style="border-bottom:2px solid var(--blue);">
+            <td style="padding:7px 10px;font-weight:600;">Самиева Арайлым <span style="font-size:10px;background:#DBEAFE;padding:1px 5px;border-radius:6px;color:var(--blue);">CN</span> <span style="font-size:10px;background:#D1FAE5;padding:1px 5px;border-radius:6px;color:#065F46;">new</span></td>
+            <td style="padding:7px 6px;text-align:center;color:var(--muted);">—</td>
+            <td style="padding:7px 6px;text-align:center;color:var(--muted);">—</td>
+            <td style="padding:7px 6px;text-align:center;color:var(--muted);">—</td>
+            <td style="padding:7px 6px;text-align:center;color:var(--muted);">—</td>
+            <td style="padding:7px 6px;text-align:center;">40</td>
+            <td style="padding:7px 6px;text-align:center;font-weight:700;color:var(--orange);">87</td>
+            <td style="padding:7px 6px;text-align:center;background:#EFF6FF;font-weight:700;">2</td>
+            <td style="padding:7px 6px;text-align:center;font-weight:700;border-left:2px solid var(--border);">129</td>
+            <td style="padding:7px 6px;text-align:center;"><span style="background:#DCFCE7;color:#166534;padding:1px 7px;border-radius:8px;font-weight:700;">77.1%</span></td>
+            <td style="padding:7px 6px;text-align:right;color:var(--muted);">55 €</td>
+          </tr>
+          <!-- TOTAL -->
+          <tr style="background:var(--blue);color:#fff;font-weight:700;">
+            <td style="padding:7px 10px;">ИТОГО (шт.)</td>
+            <td style="padding:7px 6px;text-align:center;">639</td>
+            <td style="padding:7px 6px;text-align:center;">877</td>
+            <td style="padding:7px 6px;text-align:center;color:#FDE68A;">1 074</td>
+            <td style="padding:7px 6px;text-align:center;">962</td>
+            <td style="padding:7px 6px;text-align:center;">932</td>
+            <td style="padding:7px 6px;text-align:center;">814</td>
+            <td style="padding:7px 6px;text-align:center;background:#2563EB;">329</td>
+            <td style="padding:7px 6px;text-align:center;border-left:2px solid rgba(255,255,255,.3);">5 625</td>
+            <td style="padding:7px 6px;text-align:center;">73.2%</td>
+            <td style="padding:7px 6px;text-align:right;color:#E5E7EB;">69 €</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- MONTHLY EUR TABLE -->
+  <div class="card" style="margin-top:16px;">
+    <div class="card-title">Оборот по месяцам — EUR</div>
+    <div style="overflow-x:auto;margin-top:12px;">
+      <table style="width:100%;border-collapse:collapse;font-size:12px;min-width:700px;">
+        <thead>
+          <tr style="background:#374151;color:#fff;">
+            <th style="padding:8px 10px;text-align:left;min-width:160px;">Сотрудник</th>
+            <th style="padding:8px 6px;text-align:right;">Янв</th>
+            <th style="padding:8px 6px;text-align:right;">Фев</th>
+            <th style="padding:8px 6px;text-align:right;">Мар</th>
+            <th style="padding:8px 6px;text-align:right;">Апр</th>
+            <th style="padding:8px 6px;text-align:right;">Май</th>
+            <th style="padding:8px 6px;text-align:right;">Июн</th>
+            <th style="padding:8px 6px;text-align:right;background:#1D4ED8;">Июл*</th>
+            <th style="padding:8px 6px;text-align:right;border-left:2px solid rgba(255,255,255,.3);">YTD €</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="border-bottom:1px solid var(--border);">
+            <td style="padding:6px 10px;font-weight:600;">Lyazzat Abdrajmova</td>
+            <td style="padding:6px 6px;text-align:right;">27 963</td>
+            <td style="padding:6px 6px;text-align:right;">20 720</td>
+            <td style="padding:6px 6px;text-align:right;">22 968</td>
+            <td style="padding:6px 6px;text-align:right;">18 198</td>
+            <td style="padding:6px 6px;text-align:right;">16 343</td>
+            <td style="padding:6px 6px;text-align:right;">19 802</td>
+            <td style="padding:6px 6px;text-align:right;background:#EFF6FF;">7 279</td>
+            <td style="padding:6px 6px;text-align:right;font-weight:700;border-left:2px solid var(--border);">133 273</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--border);background:#F9FAFB;">
+            <td style="padding:6px 10px;font-weight:600;">Eldar Tleuberdiev</td>
+            <td style="padding:6px 6px;text-align:right;">12 253</td>
+            <td style="padding:6px 6px;text-align:right;font-weight:700;color:var(--orange);">17 664</td>
+            <td style="padding:6px 6px;text-align:right;">12 362</td>
+            <td style="padding:6px 6px;text-align:right;">12 955</td>
+            <td style="padding:6px 6px;text-align:right;">11 540</td>
+            <td style="padding:6px 6px;text-align:right;font-weight:700;color:var(--orange);">14 845</td>
+            <td style="padding:6px 6px;text-align:right;background:#EFF6FF;">2 702</td>
+            <td style="padding:6px 6px;text-align:right;font-weight:700;border-left:2px solid var(--border);">84 321</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--border);">
+            <td style="padding:6px 10px;font-weight:600;">Gulnara Azhgereeyeva</td>
+            <td style="padding:6px 6px;text-align:right;">11 261</td>
+            <td style="padding:6px 6px;text-align:right;">10 835</td>
+            <td style="padding:6px 6px;text-align:right;font-weight:700;color:var(--orange);">22 903</td>
+            <td style="padding:6px 6px;text-align:right;">13 185</td>
+            <td style="padding:6px 6px;text-align:right;">13 869</td>
+            <td style="padding:6px 6px;text-align:right;color:var(--red);">3 743</td>
+            <td style="padding:6px 6px;text-align:right;background:#EFF6FF;">2 409</td>
+            <td style="padding:6px 6px;text-align:right;font-weight:700;border-left:2px solid var(--border);">78 205</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--border);background:#F9FAFB;">
+            <td style="padding:6px 10px;font-weight:600;">Yerbol Nurgaliyev</td>
+            <td style="padding:6px 6px;text-align:right;color:var(--muted);">—</td>
+            <td style="padding:6px 6px;text-align:right;">10 006</td>
+            <td style="padding:6px 6px;text-align:right;">10 119</td>
+            <td style="padding:6px 6px;text-align:right;">11 032</td>
+            <td style="padding:6px 6px;text-align:right;font-weight:700;color:var(--orange);">14 597</td>
+            <td style="padding:6px 6px;text-align:right;">10 560</td>
+            <td style="padding:6px 6px;text-align:right;background:#EFF6FF;">2 427</td>
+            <td style="padding:6px 6px;text-align:right;font-weight:700;border-left:2px solid var(--border);">58 741</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--border);">
+            <td style="padding:6px 10px;color:var(--muted);">Kinga Petrova</td>
+            <td style="padding:6px 6px;text-align:right;">5 577</td>
+            <td style="padding:6px 6px;text-align:right;">2 670</td>
+            <td style="padding:6px 6px;text-align:right;">5 983</td>
+            <td style="padding:6px 6px;text-align:right;">5 206</td>
+            <td style="padding:6px 6px;text-align:right;color:var(--muted);">1 201</td>
+            <td style="padding:6px 6px;text-align:right;color:var(--red);">0</td>
+            <td style="padding:6px 6px;text-align:right;background:#EFF6FF;color:var(--red);">0</td>
+            <td style="padding:6px 6px;text-align:right;font-weight:700;border-left:2px solid var(--border);">20 637</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--border);background:#F9FAFB;">
+            <td style="padding:6px 10px;font-weight:600;">Кенжалиева Алтынай <span style="font-size:10px;background:#DBEAFE;padding:1px 5px;border-radius:6px;color:var(--blue);">CN</span></td>
+            <td style="padding:6px 6px;text-align:right;color:var(--muted);">—</td>
+            <td style="padding:6px 6px;text-align:right;color:var(--muted);">—</td>
+            <td style="padding:6px 6px;text-align:right;color:var(--muted);">—</td>
+            <td style="padding:6px 6px;text-align:right;color:var(--muted);">—</td>
+            <td style="padding:6px 6px;text-align:right;">1 857</td>
+            <td style="padding:6px 6px;text-align:right;">2 626</td>
+            <td style="padding:6px 6px;text-align:right;background:#EFF6FF;">423</td>
+            <td style="padding:6px 6px;text-align:right;font-weight:700;border-left:2px solid var(--border);">4 906</td>
+          </tr>
+          <tr style="border-bottom:2px solid #374151;">
+            <td style="padding:6px 10px;font-weight:600;">Самиева Арайлым <span style="font-size:10px;background:#DBEAFE;padding:1px 5px;border-radius:6px;color:var(--blue);">CN</span></td>
+            <td style="padding:6px 6px;text-align:right;color:var(--muted);">—</td>
+            <td style="padding:6px 6px;text-align:right;color:var(--muted);">—</td>
+            <td style="padding:6px 6px;text-align:right;color:var(--muted);">—</td>
+            <td style="padding:6px 6px;text-align:right;color:var(--muted);">—</td>
+            <td style="padding:6px 6px;text-align:right;">2 812</td>
+            <td style="padding:6px 6px;text-align:right;font-weight:700;color:var(--orange);">4 254</td>
+            <td style="padding:6px 6px;text-align:right;background:#EFF6FF;">40</td>
+            <td style="padding:6px 6px;text-align:right;font-weight:700;border-left:2px solid var(--border);">7 106</td>
+          </tr>
+          <tr style="background:#374151;color:#fff;font-weight:700;">
+            <td style="padding:7px 10px;">ИТОГО EUR</td>
+            <td style="padding:7px 6px;text-align:right;">57 054</td>
+            <td style="padding:7px 6px;text-align:right;">61 895</td>
+            <td style="padding:7px 6px;text-align:right;color:#FDE68A;">74 335</td>
+            <td style="padding:7px 6px;text-align:right;">60 576</td>
+            <td style="padding:7px 6px;text-align:right;">62 219</td>
+            <td style="padding:7px 6px;text-align:right;">55 830</td>
+            <td style="padding:7px 6px;text-align:right;background:#1D4ED8;">15 280</td>
+            <td style="padding:7px 6px;text-align:right;border-left:2px solid rgba(255,255,255,.3);">387 189</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div style="font-size:11px;color:var(--muted);margin-top:8px;">
+      Июл* = MTD 01–13.07.2026 (13 рабочих дней) · Оранжевый = пиковый месяц у сотрудника · Красный = аномальный спад
+    </div>
+  </div>
+
+  <!-- JULY DETAIL -->
+  <div class="card" style="margin-top:16px;border-left:4px solid #2563EB;">
+    <div class="card-title">Июль 2026 MTD — детальная разбивка (01.07–13.07)</div>
+    <div style="overflow-x:auto;margin-top:12px;">
+      <table style="width:100%;border-collapse:collapse;font-size:13px;">
+        <thead>
+          <tr style="background:#2563EB;color:#fff;">
+            <th style="padding:8px 10px;text-align:left;">Сотрудник</th>
+            <th style="padding:8px 6px;text-align:center;">Всего</th>
+            <th style="padding:8px 6px;text-align:center;color:#86EFAC;">Завершено</th>
+            <th style="padding:8px 6px;text-align:center;color:#FCA5A5;">Отменено</th>
+            <th style="padding:8px 6px;text-align:center;color:#FDE68A;">В работе</th>
+            <th style="padding:8px 6px;text-align:right;">EUR</th>
+            <th style="padding:8px 6px;text-align:right;">Ср. чек</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="border-bottom:1px solid var(--border);">
+            <td style="padding:7px 10px;font-weight:600;">Lyazzat Abdrajmova</td>
+            <td style="padding:7px 6px;text-align:center;font-weight:700;">148</td>
+            <td style="padding:7px 6px;text-align:center;color:var(--green);">9</td>
+            <td style="padding:7px 6px;text-align:center;color:var(--red);">38</td>
+            <td style="padding:7px 6px;text-align:center;color:#B45309;">101</td>
+            <td style="padding:7px 6px;text-align:right;font-weight:600;">7 279 €</td>
+            <td style="padding:7px 6px;text-align:right;color:var(--muted);">49 €</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--border);background:#F9FAFB;">
+            <td style="padding:7px 10px;font-weight:600;">Yerbol Nurgaliyev</td>
+            <td style="padding:7px 6px;text-align:center;font-weight:700;">62</td>
+            <td style="padding:7px 6px;text-align:center;color:var(--green);">5</td>
+            <td style="padding:7px 6px;text-align:center;color:var(--red);">11</td>
+            <td style="padding:7px 6px;text-align:center;color:#B45309;">46</td>
+            <td style="padding:7px 6px;text-align:right;font-weight:600;">2 427 €</td>
+            <td style="padding:7px 6px;text-align:right;color:var(--muted);">39 €</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--border);">
+            <td style="padding:7px 10px;font-weight:600;">Eldar Tleuberdiev</td>
+            <td style="padding:7px 6px;text-align:center;font-weight:700;">55</td>
+            <td style="padding:7px 6px;text-align:center;color:var(--green);">2</td>
+            <td style="padding:7px 6px;text-align:center;color:var(--red);">9</td>
+            <td style="padding:7px 6px;text-align:center;color:#B45309;">44</td>
+            <td style="padding:7px 6px;text-align:right;font-weight:600;">2 702 €</td>
+            <td style="padding:7px 6px;text-align:right;color:var(--muted);">49 €</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--border);background:#F9FAFB;">
+            <td style="padding:7px 10px;font-weight:600;">Gulnara Azhgereeyeva</td>
+            <td style="padding:7px 6px;text-align:center;font-weight:700;">46</td>
+            <td style="padding:7px 6px;text-align:center;color:var(--green);">0</td>
+            <td style="padding:7px 6px;text-align:center;color:var(--red);">10</td>
+            <td style="padding:7px 6px;text-align:center;color:#B45309;">36</td>
+            <td style="padding:7px 6px;text-align:right;font-weight:600;">2 409 €</td>
+            <td style="padding:7px 6px;text-align:right;color:var(--muted);">52 €</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--border);">
+            <td style="padding:7px 10px;font-weight:600;">Кенжалиева Алтынай <span style="font-size:10px;background:#DBEAFE;padding:1px 5px;border-radius:6px;color:var(--blue);">CN</span></td>
+            <td style="padding:7px 6px;text-align:center;font-weight:700;">16</td>
+            <td style="padding:7px 6px;text-align:center;color:var(--green);">1</td>
+            <td style="padding:7px 6px;text-align:center;color:var(--red);">2</td>
+            <td style="padding:7px 6px;text-align:center;color:#B45309;">13</td>
+            <td style="padding:7px 6px;text-align:right;font-weight:600;">423 €</td>
+            <td style="padding:7px 6px;text-align:right;color:var(--muted);">26 €</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--border);background:#F9FAFB;">
+            <td style="padding:7px 10px;font-weight:600;">Самиева Арайлым <span style="font-size:10px;background:#DBEAFE;padding:1px 5px;border-radius:6px;color:var(--blue);">CN</span></td>
+            <td style="padding:7px 6px;text-align:center;font-weight:700;">2</td>
+            <td style="padding:7px 6px;text-align:center;color:var(--green);">0</td>
+            <td style="padding:7px 6px;text-align:center;color:var(--red);">0</td>
+            <td style="padding:7px 6px;text-align:center;color:#B45309;">2</td>
+            <td style="padding:7px 6px;text-align:right;font-weight:600;">40 €</td>
+            <td style="padding:7px 6px;text-align:right;color:var(--muted);">20 €</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--border);">
+            <td style="padding:7px 10px;color:var(--muted);">Kinga Petrova</td>
+            <td colspan="6" style="padding:7px 10px;text-align:center;color:var(--muted);font-style:italic;">— нет активности с июня 2026 —</td>
+          </tr>
+          <tr style="background:#2563EB;color:#fff;font-weight:700;">
+            <td style="padding:7px 10px;">ИТОГО июль</td>
+            <td style="padding:7px 6px;text-align:center;">329</td>
+            <td style="padding:7px 6px;text-align:center;color:#86EFAC;">17</td>
+            <td style="padding:7px 6px;text-align:center;color:#FCA5A5;">70</td>
+            <td style="padding:7px 6px;text-align:center;color:#FDE68A;">242</td>
+            <td style="padding:7px 6px;text-align:right;">15 280 €</td>
+            <td style="padding:7px 6px;text-align:right;color:#E5E7EB;">46 €</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div style="font-size:11px;color:var(--muted);margin-top:6px;">Низкий % завершения — норма для MTD: большинство заявок июля ещё открыты</div>
+  </div>
+
+  <!-- Observations -->
+  <div class="card" style="margin-top:16px;background:#FFF8E1;border-left:4px solid var(--yellow);">
+    <div class="card-title">⚠️ Ключевые наблюдения</div>
+    <ul style="margin-top:8px;font-size:12px;color:var(--text);list-style:none;">
+      <li style="padding:5px 0;border-bottom:1px dashed var(--border);"><strong>Март — пик всей команды:</strong> 1 074 заявки, 74 335€ — максимальный месяц года. У всех 4 основных операторов пик тоже в марте.</li>
+      <li style="padding:5px 0;border-bottom:1px dashed var(--border);"><strong>Lyazzat — #1 постоянно:</strong> ни одного месяца не уступила первое место. 1 798 заявок = 32% ОПС. Концентрационный риск.</li>
+      <li style="padding:5px 0;border-bottom:1px dashed var(--border);"><strong>Kinga Petrova: последняя активность — май (14 заявок).</strong> Июнь-Июль = 0. Уволилась или переведена? Уточнить у Ларисы.</li>
+      <li style="padding:5px 0;border-bottom:1px dashed var(--border);"><strong>Gulnara: провал июня</strong> — 87 заявок (обычно 160–248), EUR всего 3 743€. Отпуск? Больничный? Уточнить.</li>
+      <li style="padding:5px 0;border-bottom:1px dashed var(--border);"><strong>CN-операторы появились в мае:</strong> Кенжалиева и Самиева — первые заявки с 01.05.2026. Новые сотрудники на китайском направлении.</li>
+      <li style="padding:5px 0;"><strong>Средний чек июля (46€) vs YTD (69€)</strong> — просадка на 33%. Мониторить: возможен структурный сдвиг к мелким отправкам.</li>
+    </ul>
+  </div>
+
+  <div style="font-size:11px;color:var(--muted);border-top:1px solid var(--border);padding-top:10px;margin-top:16px;">
+    Источник: Odoo ERP · model=order.funnel · department_id=454 (OPS KZ) · Выгрузка: 13.07.2026 · Успех% = завершено/(завершено+отменено) · CN = китайскоязычный оператор
+  </div>
 
 </div>
 </div>
